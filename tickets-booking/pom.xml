@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>epam.cdp.spring.task1</groupId>
-  <artifactId>tickets-booking</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>tickets-booking</name>
- 
-  <dependencies>
-	<!-- Servlet -->	
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>epam.cdp.spring.task1</groupId>
+	<artifactId>tickets-booking</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>tickets-booking</name>
+
+	<dependencies>
+		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -26,7 +26,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -63,12 +63,25 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 			<scope>runtime</scope>
-		</dependency> 
-    
-  </dependencies>
-  
-  <build>
-    <finalName>tickets-booking</finalName>
+		</dependency>
+
+		<!-- JSON mapper -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.12</version>
+		</dependency>
+
+		<!-- Framework for generating PDF -->
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>tickets-booking</finalName>
 		<plugins>
 			<!-- Maven compiler plugin -->
 			<plugin>
@@ -80,5 +93,5 @@
 				<version>2.3</version>
 			</plugin>
 		</plugins>
-  </build>
+	</build>
 </project>

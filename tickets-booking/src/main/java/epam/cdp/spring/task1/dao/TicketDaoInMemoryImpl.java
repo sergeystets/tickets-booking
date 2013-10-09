@@ -2,7 +2,6 @@ package epam.cdp.spring.task1.dao;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,6 +27,10 @@ public class TicketDaoInMemoryImpl implements TicketDao {
 		tickets.put(t0.getId(), t0);
 		tickets.put(t1.getId(), t1);
 		tickets.put(t2.getId(), t2);
+
+		Set<Ticket> adminTickets = new TreeSet<Ticket>();
+		adminTickets.add(t0);
+		bookedTikcets.put("admin", adminTickets);
 	}
 
 	public synchronized void book(String ticketId, String userName) {
@@ -43,7 +46,18 @@ public class TicketDaoInMemoryImpl implements TicketDao {
 		bookedTickets.add(ticket);
 	}
 
-	public synchronized List<Ticket> getBookedTickets(String userName, FilterCriteria criteria) {
-		throw new UnsupportedOperationException("not yet implemented");
+	public synchronized Set<Ticket> getBookedTickets(String userName, FilterCriteria criteria) {
+		return bookedTikcets.get(userName);
+	}
+
+	@Override
+	public Set<Ticket> getAvailableTickets(FilterCriteria criteria) {
+		Set<Ticket> bookedTickets = new TreeSet<Ticket>();
+		for (Set<Ticket> tickets : bookedTikcets.values()) {
+			bookedTickets.addAll(tickets);
+		}
+		Set<Ticket> availableTickets = new TreeSet<Ticket>(tickets.values());
+		availableTickets.removeAll(bookedTickets);
+		return availableTickets;
 	}
 }

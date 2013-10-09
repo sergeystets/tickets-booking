@@ -1,6 +1,6 @@
 package epam.cdp.spring.task1.service;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,10 +33,14 @@ public class TicketService {
 		ticketDao.book(ticketId, userName);
 	}
 
-	public List<Ticket> getBookedTickets(String userName, FilterCriteria criteria) {
+	public Set<Ticket> getBookedTickets(String userName, FilterCriteria criteria) {
 		if (!userService.isUserExists(userName)) {
 			throw new RuntimeException("user with name: " + userName + " does not exist.");
 		}
 		return ticketDao.getBookedTickets(userName, criteria);
+	}
+
+	public Set<Ticket> getAvailableTickets(FilterCriteria criteria) {
+		return ticketDao.getAvailableTickets(criteria);
 	}
 }

@@ -2,7 +2,7 @@ package epam.cdp.spring.task1.bean;
 
 import java.util.Date;
 
-public class Ticket {
+public class Ticket implements Comparable<Ticket> {
 
 	private String id;
 
@@ -89,4 +89,8 @@ public class Ticket {
 		return true;
 	}
 
+	@Override
+	public int compareTo(Ticket t) {
+		return id.compareTo(t.getId());
+	}
 }
