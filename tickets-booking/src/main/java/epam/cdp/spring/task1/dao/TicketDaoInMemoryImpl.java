@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import epam.cdp.spring.task1.bean.Ticket;
@@ -18,15 +19,23 @@ public class TicketDaoInMemoryImpl implements TicketDao {
 
 	private Map<String, Set<Ticket>> bookedTikcets;
 
+	private static final Logger logger = Logger.getLogger(TicketDaoInMemoryImpl.class);
+
 	public TicketDaoInMemoryImpl() {
 		tickets = new HashMap<String, Ticket>();
 		bookedTikcets = new HashMap<String, Set<Ticket>>();
 		Ticket t0 = new Ticket("0", "Terminator Salvation", new Date(), TicketCategory.STANDARD, 10);
-		Ticket t1 = new Ticket("1", "Saw 4", new Date(1000), TicketCategory.BAR, 4);
-		Ticket t2 = new Ticket("2", "Forrest Gump", new Date(1000), TicketCategory.PREMIUM, 13);
+		Ticket t4 = new Ticket("4", "King Lion", new Date(), TicketCategory.STANDARD, 10);
+		Ticket t5 = new Ticket("5", "Film", new Date(), TicketCategory.STANDARD, 10);
+		Ticket t6 = new Ticket("6", "Terminator 3", new Date(), TicketCategory.STANDARD, 10);
+		Ticket t1 = new Ticket("1", "Saw 4", new Date(), TicketCategory.BAR, 4);
+		Ticket t2 = new Ticket("2", "Forrest Gump", new Date(), TicketCategory.PREMIUM, 13);
 		tickets.put(t0.getId(), t0);
 		tickets.put(t1.getId(), t1);
 		tickets.put(t2.getId(), t2);
+		tickets.put(t4.getId(), t4);
+		tickets.put(t5.getId(), t5);
+		tickets.put(t6.getId(), t6);
 
 		Set<Ticket> adminTickets = new TreeSet<Ticket>();
 		adminTickets.add(t0);
@@ -58,6 +67,41 @@ public class TicketDaoInMemoryImpl implements TicketDao {
 		}
 		Set<Ticket> availableTickets = new TreeSet<Ticket>(tickets.values());
 		availableTickets.removeAll(bookedTickets);
-		return availableTickets;
+		return filter(availableTickets, criteria);
+	}
+
+	/**
+	 * Method for filter tickets. It is a temporary solution. Will be removed
+	 * when working with DB.
+	 * 
+	 * @param ticketsToFilter
+	 * @param criteria
+	 * @return
+	 */
+	public Set<Ticket> filter(Set<Ticket> ticketsToFilter, FilterCriteria criteria) {
+		logger.trace("filter criteria: " + criteria);
+		Date date = criteria.getDate();
+		String title = criteria.getTitle();
+		TicketCategory category = criteria.getCategory();
+		Set<Ticket> result = new TreeSet<Ticket>();
+		for (Ticket ticket : ticketsToFilter) {
+			if (date != null) {
+				if (ticket.getDate().after(date)) {
+					continue;
+				}
+			}
+			if (title != null && !title.isEmpty()) {
+				if (!ticket.getTitle().toLowerCase().startsWith(title.toLowerCase())) {
+					continue;
+				}
+			}
+			if (category != null) {
+				if (!category.equals(ticket.getCategory())) {
+					continue;
+				}
+			}
+			result.add(ticket);
+		}
+		return result;
 	}
 }

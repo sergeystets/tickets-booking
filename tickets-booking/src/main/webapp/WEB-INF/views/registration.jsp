@@ -4,25 +4,38 @@
 <html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<link rel="stylesheet" href="style/style.css" />
+
 <script type='text/javascript' src='js/jquery/jquery-1.9.1.js'></script>
 <script type='text/javascript' src='js/jquery/jquery-ui-1.10.3.js'></script>
 <script type='text/javascript' src="js/registration.js"></script>
 <body>
-	<h2>Welcome to "Epam Cinema"</h2>
-	<h3>Login here</h3>
-	<form id="registrationForm" method="POST" action="register">
-		<label>login</label><input type="text" name="login" id="login" />
-		<div id="login_error">&nbsp</div>
-		<label>password</label><input type="password" name=password id="password" />
-		<div id="password_error">&nbsp</div>
-		<label>repeat password</label><input type="password" name="passwordRepeat" id="passwordRepeat" />
-		<div id="passwordRepeat_error">&nbsp</div>
-		<input type="submit" id="submit" value="register">
-		<c:if test="${not empty errors}">
-		<c:forEach var="error" items="${errors}">
-		${error} <br/>
-		</c:forEach>
-		</c:if>
-	</form>
+	<h2 align="center">Registration</h2>
+	<div id="registration">
+		<form id="registrationForm" method="POST" action="register">
+			<div id="regLogin">
+				<input type="text" name="login" id="login" placeholder="login" />
+				<div id="login_error" class="errorMessage">&nbsp</div>
+			</div>
+			<div id="regPassword">
+				<input type="password" name=password id="password"
+					placeholder="password" />
+				<div id="password_error" class="errorMessage">&nbsp</div>
+			</div>
+			<div id="regPasswordRepeat">
+				<input type="password" name="passwordRepeat" id="passwordRepeat"
+					placeholder="repeat password" />
+				<div id="passwordRepeat_error" class="errorMessage">&nbsp</div>
+			</div>
+			<input type="submit" id="submit" value="register">
+			<div class="errorMessage">
+				<c:if test="${not empty errors}">
+					<c:forEach var="error" items="${errors}">
+		${error} <br />
+					</c:forEach>
+				</c:if>
+			</div>
+		</form>
+	</div>
 </body>
 </html>

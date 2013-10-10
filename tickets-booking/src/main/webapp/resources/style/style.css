@@ -1,0 +1,35 @@
+#login {
+	width: 200px;
+	margin: auto;
+	text-align: center;
+}
+
+#logo {
+	width: 100px;
+	height: 100px;
+}
+
+#login,#password {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.errorMessage {
+	color: red;
+}
+
+#registration {
+	width: 400px;
+	margin: auto;
+	text-align: center;
+}
+
+#registration input {
+	width: 200px;
+}
+
+#filter{
+	width: 1000px;
+	margin: auto;
+	text-align: center;
+}

@@ -15,6 +15,7 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:resources mapping="/style/**" location="/resources/style/" />
 	<mvc:resources mapping="/js/**" location="/resources/js/" />
+	<mvc:resources mapping="/img/**" location="/resources/img/" />
 
 
 	<bean

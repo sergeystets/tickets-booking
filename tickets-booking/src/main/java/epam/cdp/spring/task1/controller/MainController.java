@@ -1,6 +1,7 @@
 package epam.cdp.spring.task1.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import epam.cdp.spring.task1.bean.RegistrationUserBean;
 import epam.cdp.spring.task1.bean.Ticket;
+import epam.cdp.spring.task1.bean.TicketCategory;
 import epam.cdp.spring.task1.bean.User;
 import epam.cdp.spring.task1.dao.FilterCriteria;
 import epam.cdp.spring.task1.service.TicketService;
@@ -49,14 +51,13 @@ public class MainController {
 	public String showStartPage() {
 		logger.trace("showing login page");
 		return "login";
-	}	
+	}
 
 	@RequestMapping("/login")
 	public String showLoginPage() {
 		logger.trace("showing login page");
 		return "login";
-	}	
-	
+	}
 
 	@RequestMapping("/tickets")
 	public ModelAndView showTicketsPage() {
@@ -124,9 +125,16 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/availableTickets")
-	public String getAvailableTickets(ModelMap model) {
+	public String getAvailableTickets(ModelMap model,
+			@RequestParam(value = "category", required = false) TicketCategory category,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "date", required = false) Date date) {
 		logger.trace("preparing available tickets..");
-		Set<Ticket> availableTickets = ticketService.getAvailableTickets(new FilterCriteria());
+		FilterCriteria criteria = new FilterCriteria();
+		criteria.setCategory(category);
+		criteria.setDate(date);
+		criteria.setTitle(title);
+		Set<Ticket> availableTickets = ticketService.getAvailableTickets(criteria);
 		model.addAttribute("availableTickets", availableTickets);
 		logger.trace("available tickets are ready");
 		return "availableTickets";
@@ -143,7 +151,5 @@ public class MainController {
 		}
 		logger.trace("user with login " + login + " does not exist.");
 		return "{}";
-
 	}
-
 }

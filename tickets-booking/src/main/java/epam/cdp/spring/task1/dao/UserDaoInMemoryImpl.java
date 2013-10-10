@@ -26,6 +26,9 @@ public class UserDaoInMemoryImpl implements UserDao {
 
 	@Override
 	public synchronized User login(String login, String password) {
+		if (users.get(login) == null) {
+			return null;
+		}
 		User user = users.get(login);
 		if (user.getPassword().equals(password)) {
 			return user;
