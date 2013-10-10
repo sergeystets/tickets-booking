@@ -5,13 +5,44 @@
 }
 
 #logo {
-	width: 100px;
-	height: 100px;
+	width: 458px;
+	height:144px;
+	margin: auto;
+}
+
+#wrapper{
+	width: 330px;
+	height:300px;
+	margin: auto;
+}
+
+#logo img{
+	width:458px;
+	height: 144px;
+}
+
+#popCorn{
+	margin-top:40px;
+	width:120px;
+	height: 108px;
+	display: inline;
+	float: left;
+}
+
+#popCorn img{
+	width:120px;
+	height: 108px;
+	float: left;
+	display: inline;
 }
 
 #login,#password {
 	margin-top: 5px;
 	margin-bottom: 10px;
+}
+
+#login{
+	float:right;
 }
 
 .errorMessage {

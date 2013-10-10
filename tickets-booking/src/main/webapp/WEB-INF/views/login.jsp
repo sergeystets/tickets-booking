@@ -7,27 +7,33 @@
 
 <link rel="stylesheet" href="style/style.css" />
 <body>
-	<h2 align="center">Welcome to "Epam Cinema"</h2>
-	<div id="login">
-		<img id="logo" src="img/cinema-logo.jpg">
-		<h3>Login here</h3>
-		<form method="POST" action="login">
-			<div id="login">
-				<input type="text" name="login" required="required" />
+	<div id="logo">
+		<img src="img/epam-cinema.jpg">
+	</div>
+	<div id="wrapper">
+	<div id="popCorn">
+				<img src="img/popCorn.jpg">
 			</div>
-			<div id="password">
-				<input type="password" name=password required="required" /> <input
-					type="submit" name="submit" value="login">
-			</div>
-		</form>
-		<p id="registerDialog">
-			Don not have account? <a href="registration">Register</a>
-		</p>
-		<p class="errorMessage">
-			<c:if test="${not empty errorMessage}">
+		<div id="login">			
+			<h3>Login here</h3>
+			<form method="POST" action="login">
+				<div id="login">
+					<input type="text" name="login" required="required" />
+				</div>
+				<div id="password">
+					<input type="password" name=password required="required" /> <input
+						type="submit" name="submit" value="login">
+				</div>
+			</form>
+			<p id="registerDialog">
+				Don not have account? <a href="registration">Register</a>
+			</p>
+			<p class="errorMessage">
+				<c:if test="${not empty errorMessage}">
 		${errorMessage}
 		</c:if>
-		</p>
+			</p>
+		</div>
 	</div>
 </body>
 </html>
