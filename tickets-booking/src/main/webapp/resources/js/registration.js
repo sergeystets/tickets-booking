@@ -34,6 +34,8 @@ var RegistrationForm = function(registrationForm) {
 		if (pass.length < passwordMinLength || pass.length > passwordMaxLength) {
 			showError(errorContainer["password"], "password should be from 3 to 25 symbols");
 			return;
+		}else{
+			clearError(errorContainer["password"]);
 		}
 	};
 
@@ -48,6 +50,11 @@ var RegistrationForm = function(registrationForm) {
 	};
 
 	var validateLogin = function() {
+		if (this.value == undefined || this.value==""){
+			showError(errorContainer["login"], " login must not be empty");
+			return;
+		}
+		
 		$.ajax({
 			data : "login=" + this.value,
 			type : "POST",

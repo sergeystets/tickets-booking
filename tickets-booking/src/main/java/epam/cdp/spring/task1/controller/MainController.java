@@ -60,6 +60,12 @@ public class MainController {
 		logger.trace("showing login page");
 		return "login";
 	}
+	
+	@RequestMapping("/complete")
+	public String showCompletePage() {
+		logger.trace("showing complete page");
+		return "complete";
+	}	
 
 	@RequestMapping("/tickets")
 	public ModelAndView showTicketsPage() {
@@ -123,7 +129,7 @@ public class MainController {
 			return "registration";
 		}
 
-		return "complete";
+		return "redirect:complete";
 	}
 
 	@RequestMapping(value = "/availableTickets")
