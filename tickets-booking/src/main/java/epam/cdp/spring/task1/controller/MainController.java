@@ -26,7 +26,9 @@ import epam.cdp.spring.task1.bean.TicketCategory;
 import epam.cdp.spring.task1.bean.User;
 import epam.cdp.spring.task1.dao.FilterCriteria;
 import epam.cdp.spring.task1.service.TicketService;
+import epam.cdp.spring.task1.service.TicketServiceBaseImpl;
 import epam.cdp.spring.task1.service.UserService;
+import epam.cdp.spring.task1.service.UserServiceBaseImpl;
 
 @Controller
 public class MainController {
@@ -38,12 +40,12 @@ public class MainController {
 	private UserService userService;
 
 	@Autowired
-	public void setTicketService(TicketService ticketService) {
+	public void setTicketService(TicketServiceBaseImpl ticketService) {
 		this.ticketService = ticketService;
 	}
 
 	@Autowired
-	public void setUserService(UserService userService) {
+	public void setUserService(UserServiceBaseImpl userService) {
 		this.userService = userService;
 	}
 
@@ -63,7 +65,7 @@ public class MainController {
 	public ModelAndView showTicketsPage() {
 		logger.trace("showing tickets page");
 		ModelAndView ticketsPage = new ModelAndView("tickets");
-		Set<Ticket> availableTickets = ticketService.getAvailableTickets(new FilterCriteria());
+		Set<Ticket> availableTickets = ticketService.getAvailableTickets();
 		String ticketsOwner = "admin";
 		Set<Ticket> bookedTickets = ticketService.getBookedTickets(ticketsOwner, new FilterCriteria());
 		ticketsPage.addObject("availableTickets", availableTickets);
@@ -130,11 +132,7 @@ public class MainController {
 			@RequestParam(value = "title", required = false) String title,
 			@RequestParam(value = "date", required = false) Date date) {
 		logger.trace("preparing available tickets..");
-		FilterCriteria criteria = new FilterCriteria();
-		criteria.setCategory(category);
-		criteria.setDate(date);
-		criteria.setTitle(title);
-		Set<Ticket> availableTickets = ticketService.getAvailableTickets(criteria);
+		Set<Ticket> availableTickets = ticketService.getAvailableTickets(category, title, date);
 		model.addAttribute("availableTickets", availableTickets);
 		logger.trace("available tickets are ready");
 		return "availableTickets";
@@ -142,7 +140,7 @@ public class MainController {
 
 	@RequestMapping(value = "/registration/checkLogin", method = RequestMethod.POST)
 	public @ResponseBody
-	String register(@RequestParam(value = "login", required = false) String login) {
+	String register(@RequestParam(value = "login", required = false, defaultValue = "") String login) {
 		logger.trace("login to check: " + login);
 		boolean userExists = userService.isUserExists(login);
 		if (userExists) {

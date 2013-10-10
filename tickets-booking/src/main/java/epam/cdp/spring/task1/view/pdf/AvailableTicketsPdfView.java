@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
+import com.lowagie.text.Cell;
 import com.lowagie.text.Document;
+import com.lowagie.text.Element;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -24,21 +26,32 @@ public class AvailableTicketsPdfView extends AbstractPdfView {
 
 		@SuppressWarnings("unchecked")
 		Set<Ticket> availableTickets = (Set<Ticket>) model.get("availableTickets");
+		
 
 		Table table = new Table(5);
-		table.addCell("id");
-		table.addCell("title");
-		table.addCell("date");
-		table.addCell("category");
-		table.addCell("place");
+		table.setAlignment(Element.ALIGN_CENTER);
+		table.setWidth(100);
+
+		table.addCell(getCenteredCell("id"));
+		table.addCell(getCenteredCell("title"));
+		table.addCell(getCenteredCell("date"));
+		table.addCell(getCenteredCell("category"));
+		table.addCell(getCenteredCell("place"));
 
 		for (Ticket ticket : availableTickets) {
-			table.addCell(ticket.getId());
-			table.addCell(ticket.getTitle());
-			table.addCell("" + ticket.getDate());
-			table.addCell("" + ticket.getCategory());
-			table.addCell("" + ticket.getPlace());
+			table.addCell(getCenteredCell(ticket.getId()));
+			table.addCell(getCenteredCell(ticket.getTitle()));
+			table.addCell(getCenteredCell("" + ticket.getDate()));
+			table.addCell(getCenteredCell("" + ticket.getCategory()));
+			table.addCell(getCenteredCell("" + ticket.getPlace()));
 		}
 		document.add(table);
 	}
+
+	private Cell getCenteredCell(String text) {
+		Cell cell = new Cell(text);
+		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		return cell;
+	}
+
 }
