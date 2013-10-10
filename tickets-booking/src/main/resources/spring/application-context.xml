@@ -12,6 +12,11 @@
 	<context:component-scan base-package="epam.cdp.spring.task1" />
 	<mvc:annotation-driven />
 
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/style/**" location="/resources/style/" />
+	<mvc:resources mapping="/js/**" location="/resources/js/" />
+
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
