@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
-import com.lowagie.text.Cell;
+import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
-import com.lowagie.text.Table;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 import epam.cdp.spring.task1.bean.Ticket;
@@ -26,32 +28,33 @@ public class AvailableTicketsPdfView extends AbstractPdfView {
 
 		@SuppressWarnings("unchecked")
 		Set<Ticket> availableTickets = (Set<Ticket>) model.get("availableTickets");
-		
 
-		Table table = new Table(5);
-		table.setAlignment(Element.ALIGN_CENTER);
-		table.setWidth(100);
+		PdfPTable table = new PdfPTable(5);
 
-		table.addCell(getCenteredCell("id"));
-		table.addCell(getCenteredCell("title"));
-		table.addCell(getCenteredCell("date"));
-		table.addCell(getCenteredCell("category"));
-		table.addCell(getCenteredCell("place"));
+		table.getDefaultCell().setFixedHeight(35);
+		table.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
+		table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
 
+		Paragraph p = new Paragraph("Available tickets");
+		p.setAlignment(Element.ALIGN_CENTER);
+		document.add(p);
+		document.add(Chunk.NEWLINE);
+
+		table.addCell("#");
+		table.addCell("title");
+		table.addCell("date");
+		table.addCell("category");
+		table.addCell("place");
+
+		int count = 1;
 		for (Ticket ticket : availableTickets) {
-			table.addCell(getCenteredCell(ticket.getId()));
-			table.addCell(getCenteredCell(ticket.getTitle()));
-			table.addCell(getCenteredCell("" + ticket.getDate()));
-			table.addCell(getCenteredCell("" + ticket.getCategory()));
-			table.addCell(getCenteredCell("" + ticket.getPlace()));
+			table.addCell("" + count++);
+			table.addCell(ticket.getTitle());
+			table.addCell("" + ticket.getDate());
+			table.addCell("" + ticket.getCategory());
+			table.addCell("" + ticket.getPlace());
 		}
 		document.add(table);
-	}
-
-	private Cell getCenteredCell(String text) {
-		Cell cell = new Cell(text);
-		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-		return cell;
 	}
 
 }
