@@ -4,13 +4,13 @@ import org.hibernate.validator.constraints.NotBlank;
 
 public class RegistrationUserBean {
 
-	@NotBlank
+	@NotBlank(message="login can not be blank")
 	private String login;
 
-	@NotBlank
+	@NotBlank (message="password can not be blank")
 	private String password;
 
-	@NotBlank
+	@NotBlank (message="passwordRepeat can not be blank")
 	private String passwordRepeat;
 
 	public String getPasswordRepeat() {

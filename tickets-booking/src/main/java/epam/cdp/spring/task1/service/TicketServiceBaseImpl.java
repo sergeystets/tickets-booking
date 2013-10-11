@@ -42,9 +42,6 @@ public class TicketServiceBaseImpl implements TicketService {
 		return ticketDao.getBookedTickets(userName, criteria);
 	}
 
-		
-	
-
 	@Override
 	public Set<Ticket> getAvailableTickets(TicketCategory category, String title, Date date) {
 		FilterCriteria criteria = new FilterCriteria();
