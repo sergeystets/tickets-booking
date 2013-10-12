@@ -7,7 +7,9 @@ var RegistrationForm = function(registrationForm) {
 	var submitButton = form.find("#submit");
 	var passwordMinLength = 3;
 	var passwordMaxLength = 25;
-    var formCorrect = false;
+	loginMinLength = 3
+	loginMaxLength = 30;
+	var formCorrect = false;
 
 	var fields = {
 		login : form.find("#login"),
@@ -34,7 +36,7 @@ var RegistrationForm = function(registrationForm) {
 		if (pass.length < passwordMinLength || pass.length > passwordMaxLength) {
 			showError(errorContainer["password"], "password should be from 3 to 25 symbols");
 			return;
-		}else{
+		} else {
 			clearError(errorContainer["password"]);
 		}
 	};
@@ -50,11 +52,11 @@ var RegistrationForm = function(registrationForm) {
 	};
 
 	var validateLogin = function() {
-		if (this.value == undefined || this.value==""){
-			showError(errorContainer["login"], " login must not be empty");
+		if (this.value.length < loginMinLength || this.value.length > loginMaxLength) {
+			showError(errorContainer["login"], "login should be from 3 to 30 symbols");
 			return;
 		}
-		
+
 		$.ajax({
 			data : "login=" + this.value,
 			type : "POST",
@@ -78,22 +80,17 @@ var RegistrationForm = function(registrationForm) {
 		for ( var key in fields) {
 			fields[key].trigger("change");
 		}
+	
 		return formCorrect;
 	};
-	
+
 	var registerEventListeners = function() {
-        fields["password"].on("change", validatePassword);
-        fields["passwordRepeat"].on("change", validatePasswordRepeat);
-        fields["login"].on("change", validateLogin);
-        submitButton.on("click", submit);
-    }();
-    
-    var updateSubmit = function() {
-        if (formCorrect) {
-            submitButton.attr("disabled", "disabled");
-        } else {
-            submitButton.removeAttr("disabled");
-        }
-    }();
+		fields["password"].on("change", validatePassword);
+		fields["passwordRepeat"].on("change", validatePasswordRepeat);
+		fields["login"].on("change", validateLogin);
+		submitButton.on("click", submit);
+	}();
+
+	
 
 };

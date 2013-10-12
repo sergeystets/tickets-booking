@@ -19,14 +19,14 @@ import com.lowagie.text.pdf.PdfWriter;
 import epam.cdp.spring.task1.bean.Ticket;
 
 @Component
-public class AvailableTicketsPdfView extends AbstractPdfView {
+public class BookedTicketsPdfView extends AbstractPdfView {
 
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		@SuppressWarnings("unchecked")
-		Set<Ticket> availableTickets = (Set<Ticket>) model.get("availableTickets");
+		Set<Ticket> bookedTickets = (Set<Ticket>) model.get("bookedTickets");
 
 		PdfPTable table = new PdfPTable(5);
 
@@ -34,7 +34,7 @@ public class AvailableTicketsPdfView extends AbstractPdfView {
 		table.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
 		table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
 
-		Paragraph p = new Paragraph("Available tickets");
+		Paragraph p = new Paragraph("Booked tickets");
 		p.setAlignment(Element.ALIGN_CENTER);
 		document.add(p);
 		document.add(Chunk.NEWLINE);
@@ -46,7 +46,7 @@ public class AvailableTicketsPdfView extends AbstractPdfView {
 		table.addCell("place");
 
 		int count = 1;
-		for (Ticket ticket : availableTickets) {
+		for (Ticket ticket : bookedTickets) {
 			table.addCell("" + count++);
 			table.addCell(ticket.getTitle());
 			table.addCell("" + ticket.getDate());

@@ -26,7 +26,7 @@ CREATE TABLE User (
 
 CREATE TABLE BookedTickets (
   userLogin    VARCHAR(30) NOT NULL,
-  ticketId INTEGER NOT NULL
+  ticketId INTEGER NOT NULL UNIQUE
 );
 
 ALTER TABLE BookedTickets ADD CONSTRAINT fk_bookedTickets_user FOREIGN KEY (userLogin) REFERENCES User (login);

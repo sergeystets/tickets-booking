@@ -10,7 +10,7 @@
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script type='text/javascript' src='js/jquery/jquery-1.9.1.js'></script>
 <script type='text/javascript' src='js/jquery/jquery-ui-1.10.3.js'></script>
-<script type='text/javascript' src='js/ticketsFilter.js'></script>
+<script type='text/javascript' src='js/myTicketsFilter.js'></script>
 <script type='text/javascript' src="js/book.js"></script>
 
 <script>
@@ -20,11 +20,10 @@
 </script>
 <body>
 	<div class="link">
-		<a href="myTickets">My tickets</a>
+		<a href="tickets">All tickets</a>
 	</div>
 
-	<h2 align="center">Welcome to "Epam Cinema"</h2>
-	<h3 align="center">Here you can book tickets</h3>
+	<h3 align="center">Your tickets</h3>
 
 
 	<div id="filter">
@@ -40,12 +39,12 @@
 			<input type="submit" name="ok" value="ok">
 
 			<div id="ticketsFormatLogo">
-				<a href="availableTickets.json" id="ticketsAsJSON"><img
-					src="img/json-logo.jpg"></a> <a href="availableTickets.pdf"
+				<a href="bookedTickets.json" id="ticketsAsJSON"><img
+					src="img/json-logo.jpg"></a> <a href="bookedTickets.pdf"
 					id="ticketsAsPDF"><img src="img/pdf-logo.jpg"></a>
 			</div>
-			<div id="availableTickets">
-				<%@ include file="/WEB-INF/views/availableTickets.jsp"%>
+			<div id="bookedTickets">
+				<%@ include file="/WEB-INF/views/bookedTickets.jsp"%>
 			</div>
 		</form>
 	</div>

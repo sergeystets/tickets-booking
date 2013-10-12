@@ -1,4 +1,4 @@
-package epam.cdp.spring.task1.dao;
+package epam.cdp.spring.task1.dao.impl.map;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,13 +6,14 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import epam.cdp.spring.task1.bean.User;
+import epam.cdp.spring.task1.dao.UserDao;
 
-@Repository
-public class UserDaoInMemoryImpl implements UserDao {
+//@Repository
+public class UserDaoInMapImpl implements UserDao {
 
 	private Map<String, User> users;
 
-	public UserDaoInMemoryImpl() {
+	public UserDaoInMapImpl() {
 		users = new HashMap<String, User>();
 		User u0 = new User("user", "user");
 		User u1 = new User("admin", "admin");

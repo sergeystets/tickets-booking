@@ -19,6 +19,27 @@
 	<mvc:resources mapping="/js/**" location="/resources/js/" />
 	<mvc:resources mapping="/img/**" location="/resources/img/" />
 
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.XmlViewResolver">
+					<property name="location">
+						<value>classpath:spring/pdf-views.xml</value>
+					</property>
+				</bean>
+			</list>
+		</property>
+
+		<property name="defaultViews">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+				</bean>
+			</list>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+	</bean>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -26,35 +47,28 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<bean
-		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="order" value="1" />
-		<property name="mediaTypes">
-			<map>
-				<entry key="json" value="application/json" />
-				<entry key="pdf" value="application/pdf" />
-			</map>
-		</property>
-		<property name="defaultViews">
-			<list>
-				<bean
-					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
-				</bean>
-				<bean class="epam.cdp.spring.task1.view.pdf.AvailableTicketsPdfView">
-				</bean>
-			</list>
-		</property>
-		<property name="ignoreAcceptHeader" value="true" />
+	<!-- HSQL configuration -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:tickets-booking" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
 	</bean>
 
-	
-	<!-- HSQL configuration -->
-	<jdbc:embedded-database id="embeddedDatasource"
-		type="HSQL" />	
-
-	<jdbc:embedded-database id="embeddedDataSource">
+	<jdbc:initialize-database data-source="dataSource">
 		<jdbc:script location="classpath:db/hsql/schema.sql" />
 		<jdbc:script location="classpath:db/hsql/data.sql" />
-	</jdbc:embedded-database>
+	</jdbc:initialize-database>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg>
+			<ref bean="dataSource" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
 </beans>

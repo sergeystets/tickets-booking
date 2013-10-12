@@ -9,9 +9,11 @@
 <script type='text/javascript' src='js/jquery/jquery-1.9.1.js'></script>
 <script type='text/javascript' src='js/jquery/jquery-ui-1.10.3.js'></script>
 <script type='text/javascript' src="js/registration.js"></script>
-<body>
+
+
+<body>	
+	<div id="registrationFormWrapper">
 	<h2 align="center">Registration</h2>
-	<div id="registration">
 		<form id="registrationForm" method="POST" action="register">
 			<div id="regLogin">
 				<input type="text" name="login" id="login" placeholder="login" />

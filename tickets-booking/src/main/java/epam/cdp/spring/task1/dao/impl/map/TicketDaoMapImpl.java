@@ -1,4 +1,4 @@
-package epam.cdp.spring.task1.dao;
+package epam.cdp.spring.task1.dao.impl.map;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -7,21 +7,22 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
 
 import epam.cdp.spring.task1.bean.Ticket;
 import epam.cdp.spring.task1.bean.TicketCategory;
+import epam.cdp.spring.task1.dao.FilterCriteria;
+import epam.cdp.spring.task1.dao.TicketDao;
 
-@Repository
-public class TicketDaoInMemoryImpl implements TicketDao {
+//@Repository
+public class TicketDaoMapImpl implements TicketDao {
 
 	private Map<String, Ticket> tickets;
 
 	private Map<String, Set<Ticket>> bookedTikcets;
 
-	private static final Logger logger = Logger.getLogger(TicketDaoInMemoryImpl.class);
+	private static final Logger logger = Logger.getLogger(TicketDaoMapImpl.class);
 
-	public TicketDaoInMemoryImpl() {
+	public TicketDaoMapImpl() {
 		tickets = new HashMap<String, Ticket>();
 		bookedTikcets = new HashMap<String, Set<Ticket>>();
 		Ticket t0 = new Ticket("0", "Terminator Salvation", new Date(), TicketCategory.STANDARD, 10);
@@ -91,7 +92,7 @@ public class TicketDaoInMemoryImpl implements TicketDao {
 				}
 			}
 			if (title != null && !title.isEmpty()) {
-				if (!ticket.getTitle().toLowerCase().startsWith(title.toLowerCase())) {
+				if (!ticket.getTitle().toLowerCase().contains(title.toLowerCase())) {
 					continue;
 				}
 			}

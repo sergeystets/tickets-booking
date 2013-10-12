@@ -7,25 +7,26 @@
 
 <link rel="stylesheet" href="style/style.css" />
 <body>
-	<div id="logo">
-		<img src="img/epam-cinema.jpg">
-	</div>
-	<div id="wrapper">
-	<div id="popCorn">
+	<div id="loginPageWrapper">
+		<div id="logo">
+			<img src="img/epam-cinema.jpg">
+		</div>
+		<div id="loginForm">
+			<div id="popCorn">
 				<img src="img/popCorn.jpg">
 			</div>
-		<div id="login">			
-			<h3>Login here</h3>
 			<form method="POST" action="login">
 				<div id="login">
-					<input type="text" name="login" required="required" />
+					<input type="text" name="login" required="required"
+						placeholder="login" />
 				</div>
 				<div id="password">
-					<input type="password" name=password required="required" /> <input
-						type="submit" name="submit" value="login">
+					<input type="password" name=password required="required"
+						placeholder="password" />
 				</div>
+				<input type="submit" name="submit" value="login">
 			</form>
-			<p id="registerDialog">
+			<p id="registrationLink">
 				Don not have account? <a href="registration">Register</a>
 			</p>
 			<p class="errorMessage">

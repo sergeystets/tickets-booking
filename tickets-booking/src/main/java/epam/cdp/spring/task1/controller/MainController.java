@@ -24,11 +24,8 @@ import epam.cdp.spring.task1.bean.RegistrationUserBean;
 import epam.cdp.spring.task1.bean.Ticket;
 import epam.cdp.spring.task1.bean.TicketCategory;
 import epam.cdp.spring.task1.bean.User;
-import epam.cdp.spring.task1.dao.FilterCriteria;
 import epam.cdp.spring.task1.service.TicketService;
-import epam.cdp.spring.task1.service.TicketServiceBaseImpl;
 import epam.cdp.spring.task1.service.UserService;
-import epam.cdp.spring.task1.service.UserServiceBaseImpl;
 
 @Controller
 public class MainController {
@@ -40,12 +37,12 @@ public class MainController {
 	private UserService userService;
 
 	@Autowired
-	public void setTicketService(TicketServiceBaseImpl ticketService) {
+	public void setTicketService(TicketService ticketService) {
 		this.ticketService = ticketService;
 	}
 
 	@Autowired
-	public void setUserService(UserServiceBaseImpl userService) {
+	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
 
@@ -60,23 +57,41 @@ public class MainController {
 		logger.trace("showing login page");
 		return "login";
 	}
-	
+
 	@RequestMapping("/complete")
 	public String showCompletePage() {
 		logger.trace("showing complete page");
 		return "complete";
-	}	
+	}
+
+	@RequestMapping("/book")
+	public @ResponseBody
+	String book(@RequestParam(value = "ticketId", required = true, defaultValue = "") String ticketId,
+			HttpSession session) {
+		logger.trace("booking");
+		User user = (User) session.getAttribute("user");
+		ticketService.book(ticketId, user.getLogin());
+		return "{}";
+	}
+
+	@RequestMapping("/myTickets")
+	public ModelAndView showMyTicketsPage(HttpSession session) {
+		logger.trace("showing my tickets page");
+		User user = (User) session.getAttribute("user");
+		ModelAndView bookedTicketsPage = new ModelAndView("myTickets");
+		Set<Ticket> availableTickets = ticketService.getBookedTickets(user.getLogin());
+		bookedTicketsPage.addObject("bookedTickets", availableTickets);
+		logger.trace("available tickets: " + availableTickets);
+		return bookedTicketsPage;
+	}
 
 	@RequestMapping("/tickets")
 	public ModelAndView showTicketsPage() {
 		logger.trace("showing tickets page");
 		ModelAndView ticketsPage = new ModelAndView("tickets");
 		Set<Ticket> availableTickets = ticketService.getAvailableTickets();
-		String ticketsOwner = "admin";
-		Set<Ticket> bookedTickets = ticketService.getBookedTickets(ticketsOwner, new FilterCriteria());
 		ticketsPage.addObject("availableTickets", availableTickets);
-		ticketsPage.addObject("bookedTickets", bookedTickets);
-		ticketsPage.addObject("ticketsOwner", ticketsOwner);
+		logger.trace("available tickets: " + availableTickets);
 		return ticketsPage;
 	}
 
@@ -140,7 +155,7 @@ public class MainController {
 		logger.trace("preparing available tickets..");
 		Set<Ticket> availableTickets = ticketService.getAvailableTickets(category, title, date);
 		model.addAttribute("availableTickets", availableTickets);
-		logger.trace("available tickets are ready");
+		logger.trace("available tickets are ready: " + availableTickets);
 		return "availableTickets";
 	}
 
@@ -156,4 +171,17 @@ public class MainController {
 		logger.trace("user with login " + login + " does not exist.");
 		return "{}";
 	}
+
+	@RequestMapping(value = "/bookedTickets")
+	public String getBookedTickets(HttpSession session,
+			@RequestParam(value = "category", required = false) TicketCategory category,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "date", required = false) Date date, ModelMap model) {
+		User user = (User) session.getAttribute("user");
+		Set<Ticket> bookedTickets = ticketService.getBookedTickets(user.getLogin(), category, title, date);
+		logger.trace("bookedTickets for user :" + user.getLogin() + "are ready: " + bookedTickets);
+		model.addAttribute("bookedTickets", bookedTickets);
+		return "bookedTickets";
+	}
+
 }
