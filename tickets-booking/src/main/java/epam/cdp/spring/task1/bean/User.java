@@ -1,16 +1,17 @@
 package epam.cdp.spring.task1.bean;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 
 public class User {
 
 	@NotBlank(message="login can not be blank")
-	@Range(min=3, max=30, message="login should be from 3 to 30 symbols")
+	@Size(min=3, max=30, message="login should be from 3 to 30 symbols")
 	private String login;
 
 	@NotBlank (message="password can not be blank")
-	@Range(min=3, max=25, message="password should be from 3 to 25 symbols")
+	@Size(min=3, max=25, message="password should be from 3 to 25 symbols")
 	private String password;
 	
 	public User() {
