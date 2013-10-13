@@ -102,7 +102,7 @@ public class MainController {
 		User user = userService.login(login, password);
 		if (user == null) {
 			logger.info("user with login: " + login + " does not exist");
-			request.setAttribute("errorMessage", "user with such login and password does not exists");
+			request.setAttribute("errorMessage", "user with such login and password does not exist");
 			return "login";
 		} else {
 			session.setAttribute("user", user);
@@ -179,7 +179,7 @@ public class MainController {
 			@RequestParam(value = "date", required = false) Date date, ModelMap model) {
 		User user = (User) session.getAttribute("user");
 		Set<Ticket> bookedTickets = ticketService.getBookedTickets(user.getLogin(), category, title, date);
-		logger.trace("bookedTickets for user :" + user.getLogin() + "are ready: " + bookedTickets);
+		logger.trace("bookedTickets for user :" + user.getLogin() + " are ready: " + bookedTickets);
 		model.addAttribute("bookedTickets", bookedTickets);
 		return "bookedTickets";
 	}
