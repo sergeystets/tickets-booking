@@ -65,9 +65,9 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 
-	<jdbc:initialize-database data-source="dataSource">
-		<jdbc:script location="classpath:db/scripts/hsql/schema.sql" />
-		<jdbc:script location="classpath:db/scripts/hsql/data.sql" />
+	<jdbc:initialize-database data-source="dataSource" >
+		<jdbc:script location="classpath:/${db.script.location.schema}" />
+		<jdbc:script location="classpath:/${db.script.location.data}" />
 	</jdbc:initialize-database>
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
