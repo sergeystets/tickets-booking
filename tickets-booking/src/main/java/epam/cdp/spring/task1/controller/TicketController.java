@@ -1,14 +1,17 @@
 package epam.cdp.spring.task1.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,10 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 import epam.cdp.spring.task1.bean.Ticket;
 import epam.cdp.spring.task1.bean.TicketCategory;
 import epam.cdp.spring.task1.bean.User;
+import epam.cdp.spring.task1.controller.response.ControllerResponse;
+import epam.cdp.spring.task1.exception.TicketServiceException;
 import epam.cdp.spring.task1.service.TicketService;
 
 @Controller
-public class TicketController {
+public class TicketController extends BaseController {
 
 	private static final Logger logger = Logger.getLogger(TicketController.class);
 
@@ -34,7 +39,7 @@ public class TicketController {
 	@RequestMapping("/book")
 	public @ResponseBody
 	String book(@RequestParam(value = "ticketId", required = true, defaultValue = "") String ticketId,
-			HttpSession session) {
+			HttpSession session) throws TicketServiceException {
 		logger.trace("booking");
 		User user = (User) session.getAttribute("user");
 		ticketService.book(ticketId, user.getLogin());
@@ -84,5 +89,14 @@ public class TicketController {
 		logger.trace("bookedTickets for user :" + user.getLogin() + " are ready: " + bookedTickets);
 		model.addAttribute("bookedTickets", bookedTickets);
 		return "bookedTickets";
+	}
+
+	@ExceptionHandler(TicketServiceException.class)
+	ControllerResponse getTicketErrorResponse(TicketServiceException ex, HttpServletResponse response) throws IOException {
+		response.sendError(400, ex.getMessage());
+		ControllerResponse errorResponse = new ControllerResponse();
+		errorResponse.setMessage(ex.getMessage());
+		errorResponse.setError(true);
+		return errorResponse;
 	}
 }

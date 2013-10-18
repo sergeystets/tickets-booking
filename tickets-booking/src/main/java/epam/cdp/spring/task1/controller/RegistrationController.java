@@ -1,26 +1,31 @@
 package epam.cdp.spring.task1.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import epam.cdp.spring.task1.bean.RegistrationUserBean;
 import epam.cdp.spring.task1.bean.User;
+import epam.cdp.spring.task1.controller.response.ControllerResponse;
+import epam.cdp.spring.task1.exception.TicketServiceException;
+import epam.cdp.spring.task1.exception.UserServiceException;
 import epam.cdp.spring.task1.service.UserService;
 
 @Controller
-public class RegistrationController {
+public class RegistrationController extends BaseController {
 
 	private static final Logger logger = Logger.getLogger(RegistrationController.class);
 
@@ -57,9 +62,9 @@ public class RegistrationController {
 		User user = new User(userBean.getLogin(), userBean.getPassword());
 		try {
 			userService.register(user);
-		} catch (Exception e) {
-			logger.error(e);
-			errors.add(e.getMessage());
+		} catch (UserServiceException ex) {
+			logger.error(ex);
+			errors.add(ex.getMessage());
 			request.setAttribute("errors", errors);
 			return "registration";
 		}
@@ -67,22 +72,34 @@ public class RegistrationController {
 		return "redirect:complete";
 	}
 
-	@RequestMapping(value = "/registration/checkLogin", method = RequestMethod.POST)
-	public @ResponseBody
-	String register(@RequestParam(value = "login", required = false, defaultValue = "") String login) {
+	@RequestMapping(value = "/registration/checkLogin.json", method = RequestMethod.POST)
+	public ControllerResponse register(@RequestParam(value = "login", required = false, defaultValue = "") String login) {
 		logger.trace("login to check: " + login);
+		
+		ControllerResponse response = new ControllerResponse();		
 		boolean userExists = userService.isUserExists(login);
 		if (userExists) {
 			logger.error("user with login " + login + " exists");
-			return "{\"error\":\"user with such login already exists\"}";
+			response.setError(true);
+			response.setMessage("user with such login already exists");
 		}
 		logger.trace("user with login " + login + " does not exist.");
-		return "{}";
+		return response;
 	}
 
 	@RequestMapping("/complete")
 	public String showCompletePage() {
 		logger.trace("showing complete page");
 		return "complete";
+	}
+
+	@ExceptionHandler(UserServiceException.class)
+	private ControllerResponse getRegistrationErrorResponse(TicketServiceException ex, HttpServletResponse response)
+			throws IOException {
+		response.sendError(400, ex.getMessage());
+		ControllerResponse errorResponse = new ControllerResponse();
+		errorResponse.setError(true);
+		errorResponse.setMessage(ex.getMessage());
+		return errorResponse;
 	}
 }

@@ -9,7 +9,16 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean id="availableTickets" class="epam.cdp.spring.task1.view.pdf.AvailableTicketsPdfView"/>
-	<bean id="bookedTickets" class="epam.cdp.spring.task1.view.pdf.BookedTicketsPdfView"/>
+	<context:component-scan base-package="epam.cdp.spring.task1" />
+	<mvc:annotation-driven />
+
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/style/**" location="/resources/style/" />
+	<mvc:resources mapping="/js/**" location="/resources/js/" />
+	<mvc:resources mapping="/img/**" location="/resources/img/" />
+
+
+	<import resource="classpath:spring/data-source-context.xml" />
+	<import resource="classpath:spring/view-resolvers-context.xml" />
 
 </beans>

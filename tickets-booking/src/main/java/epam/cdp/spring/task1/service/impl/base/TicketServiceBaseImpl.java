@@ -1,4 +1,4 @@
-package epam.cdp.spring.task1.service.impl;
+package epam.cdp.spring.task1.service.impl.base;
 
 import java.util.Date;
 import java.util.Set;
@@ -9,6 +9,7 @@ import epam.cdp.spring.task1.bean.Ticket;
 import epam.cdp.spring.task1.bean.TicketCategory;
 import epam.cdp.spring.task1.dao.FilterCriteria;
 import epam.cdp.spring.task1.dao.TicketDao;
+import epam.cdp.spring.task1.exception.TicketServiceException;
 import epam.cdp.spring.task1.service.TicketService;
 import epam.cdp.spring.task1.service.UserService;
 
@@ -31,14 +32,14 @@ public class TicketServiceBaseImpl implements TicketService {
 
 	public void book(String ticketId, String userName) {
 		if (!userService.isUserExists(userName)) {
-			throw new RuntimeException("user with name: " + userName + " does not exist.");
+			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
 		ticketDao.book(ticketId, userName);
 	}
 
 	public Set<Ticket> getBookedTickets(String userName, TicketCategory category, String title, Date date) {
 		if (!userService.isUserExists(userName)) {
-			throw new RuntimeException("user with name: " + userName + " does not exist.");
+			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
 		FilterCriteria criteria = new FilterCriteria();
 		criteria.setCategory(category);
@@ -66,7 +67,7 @@ public class TicketServiceBaseImpl implements TicketService {
 	@Override
 	public Set<Ticket> getBookedTickets(String userName) {
 		if (!userService.isUserExists(userName)) {
-			throw new RuntimeException("user with name: " + userName + " does not exist.");
+			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
 		
 		return ticketDao.getBookedTickets(userName,new FilterCriteria());

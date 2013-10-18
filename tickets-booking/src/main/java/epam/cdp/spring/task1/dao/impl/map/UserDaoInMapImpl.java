@@ -36,12 +36,8 @@ public class UserDaoInMapImpl implements UserDao {
 	}
 
 	@Override
-	public User register(User user) throws Exception {
-		String login = user.getLogin();
-		if (users.containsKey(login)) {
-			throw new Exception("user already exists");
-		}
-		users.put(login, user);
+	public User register(User user) {
+		users.put(user.getLogin(), user);
 		return user;
 	}
 }

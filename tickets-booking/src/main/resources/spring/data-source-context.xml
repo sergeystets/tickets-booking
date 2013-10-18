@@ -11,53 +11,7 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
         http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 
-	<context:component-scan base-package="epam.cdp.spring.task1" />
-	<mvc:annotation-driven />
-
-	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<mvc:resources mapping="/style/**" location="/resources/style/" />
-	<mvc:resources mapping="/js/**" location="/resources/js/" />
-	<mvc:resources mapping="/img/**" location="/resources/img/" />
-
-	<bean
-		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:db/db.properties</value>
-				<value>classpath:spring/configuration.properties</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean
-		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="viewResolvers">
-			<list>
-				<bean class="org.springframework.web.servlet.view.XmlViewResolver">
-					<property name="location">
-						<value>classpath:spring/pdf-views.xml</value>
-					</property>
-				</bean>
-			</list>
-		</property>
-
-		<property name="defaultViews">
-			<list>
-				<bean
-					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
-				</bean>
-			</list>
-		</property>
-		<property name="ignoreAcceptHeader" value="true" />
-	</bean>
-
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="${internal_view_resolver.prefix}" />
-		<property name="suffix" value="${internal_view_resolver.suffix}" />
-	</bean>
-
-	<!-- HSQL configuration -->
+	<!-- Data source configuration -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
@@ -65,10 +19,12 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 
+	<!-- Uncomment this to run scripts for in-memory data base 
 	<jdbc:initialize-database data-source="dataSource" >
-		<jdbc:script location="classpath:/${db.script.location.schema}" />
-		<jdbc:script location="classpath:/${db.script.location.data}" />
-	</jdbc:initialize-database>
+	 	<jdbc:script location="classpath:/${db.script.location.schema}" /> 
+	 	<jdbc:script location="classpath:/${db.script.location.data}" /> 
+	</jdbc:initialize-database> 
+	-->
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg>
@@ -80,5 +36,4 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-
 </beans>

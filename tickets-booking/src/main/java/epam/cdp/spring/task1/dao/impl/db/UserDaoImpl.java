@@ -44,10 +44,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User register(User user) throws Exception {
-		if (isUserExists(user.getLogin())) {
-			throw new Exception("user with login: " + user.getLogin() + "already exists");
-		}
+	public User register(User user) {
 		template.update(INSERT_USER, user.getLogin(), user.getPassword());
 		return user;
 	}

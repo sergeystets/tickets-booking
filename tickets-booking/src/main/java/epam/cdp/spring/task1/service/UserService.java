@@ -8,6 +8,6 @@ public interface UserService {
 
 	public User login(String login, String password);
 
-	public User register(User user) throws Exception;
+	public User register(User user);
 
 }

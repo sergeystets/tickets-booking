@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import epam.cdp.spring.task1.bean.User;
 import epam.cdp.spring.task1.dao.UserDao;
+import epam.cdp.spring.task1.exception.UserServiceException;
 import epam.cdp.spring.task1.service.UserService;
 
 @Service
@@ -27,7 +28,10 @@ public class UserServiceTxImpl implements UserService {
 		return userDao.login(login, password);
 	}
 
-	public User register(User user) throws Exception {
+	public User register(User user){
+		if (isUserExists(user.getLogin())) {
+			throw new UserServiceException("user with login: " + user.getLogin() + "already exists");
+		}
 		return userDao.register(user);
 	}
 }

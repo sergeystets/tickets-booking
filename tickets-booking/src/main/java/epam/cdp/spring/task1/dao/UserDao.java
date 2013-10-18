@@ -8,5 +8,5 @@ public interface UserDao {
 
 	User login(String login, String password);
 	
-	User register(User user) throws Exception;
+	User register(User user);
 }

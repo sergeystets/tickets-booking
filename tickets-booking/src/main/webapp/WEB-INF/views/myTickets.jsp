@@ -10,7 +10,8 @@
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script type='text/javascript' src='js/jquery/jquery-1.9.1.js'></script>
 <script type='text/javascript' src='js/jquery/jquery-ui-1.10.3.js'></script>
-<script type='text/javascript' src='js/myTicketsFilter.js'></script>
+<script type='text/javascript' src='js/ticketsFilter.js'></script>
+<script type='text/javascript' src='js/bookedTickets.js'></script>
 <script type='text/javascript' src="js/book.js"></script>
 
 <script>

@@ -11,6 +11,7 @@
 <script type='text/javascript' src='js/jquery/jquery-1.9.1.js'></script>
 <script type='text/javascript' src='js/jquery/jquery-ui-1.10.3.js'></script>
 <script type='text/javascript' src='js/ticketsFilter.js'></script>
+<script type='text/javascript' src='js/availableTickets.js'></script>
 <script type='text/javascript' src="js/book.js"></script>
 
 <script>

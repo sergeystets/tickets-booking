@@ -40,5 +40,4 @@ public class FilterCriteria {
 	public String toString() {
 		return "FilterCriteria [category=" + category + ", date=" + date + ", title=" + title + "]";
 	}
-
 }

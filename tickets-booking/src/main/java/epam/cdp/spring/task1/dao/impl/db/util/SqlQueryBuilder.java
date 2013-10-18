@@ -32,7 +32,7 @@ public class SqlQueryBuilder {
 			containsWhereClause = true;
 		}
 
-		if (title != null) {
+		if (title != null && !title.isEmpty()) {
 			String condition = " title = ?";
 			baseQuery = appendCondition(condition, baseQuery, containsWhereClause);
 			parameters.add(title);

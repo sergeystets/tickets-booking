@@ -7,7 +7,7 @@ var RegistrationForm = function(registrationForm) {
 	var submitButton = form.find("#submit");
 	var passwordMinLength = 3;
 	var passwordMaxLength = 25;
-	loginMinLength = 3
+	loginMinLength = 3;
 	loginMaxLength = 30;
 	var formCorrect = false;
 
@@ -60,16 +60,16 @@ var RegistrationForm = function(registrationForm) {
 		$.ajax({
 			data : "login=" + this.value,
 			type : "POST",
-			url : "registration/checkLogin",
+			url : "registration/checkLogin.json",
 			dataType : "json",
-			success : function(response) {
-				if (response["error"]) {
-					showError(errorContainer["login"], response["error"]);
+			success : function(data) {				
+				if (data.controllerResponse.error == true) {
+					showError(errorContainer["login"], data.controllerResponse.message);
 				} else {
 					clearError(errorContainer["login"]);
 				}
 			},
-			error : function(response, xhr) {
+			error : function() {
 				showError(errorContainer["login"], "Unexpected error happend. Try again later");
 			}
 		});
@@ -80,7 +80,7 @@ var RegistrationForm = function(registrationForm) {
 		for ( var key in fields) {
 			fields[key].trigger("change");
 		}
-	
+
 		return formCorrect;
 	};
 
@@ -90,7 +90,5 @@ var RegistrationForm = function(registrationForm) {
 		fields["login"].on("change", validateLogin);
 		submitButton.on("click", submit);
 	}();
-
-	
 
 };

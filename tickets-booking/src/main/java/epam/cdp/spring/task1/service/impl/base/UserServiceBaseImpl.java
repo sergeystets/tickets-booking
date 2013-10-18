@@ -1,10 +1,10 @@
-package epam.cdp.spring.task1.service.impl;
+package epam.cdp.spring.task1.service.impl.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import epam.cdp.spring.task1.bean.User;
 import epam.cdp.spring.task1.dao.UserDao;
+import epam.cdp.spring.task1.exception.UserServiceException;
 import epam.cdp.spring.task1.service.UserService;
 
 //@Service
@@ -25,8 +25,11 @@ public class UserServiceBaseImpl implements UserService {
 		return userDao.login(login, password);
 	}
 
-	public User register(User user) throws Exception {
+	public User register(User user){
+		String login = user.getLogin();
+		if (isUserExists(login)) {
+			throw new UserServiceException("user already exists");
+		}
 		return userDao.register(user);
 	}
-
 }
