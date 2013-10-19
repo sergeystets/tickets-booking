@@ -43,9 +43,9 @@
 			<input type="submit" name="ok" value="ok" id="ok">
 		</form>
 		<div id="ticketsFormatLogo">
-			<a href="bookedTickets.json" id="ticketsAsJSON"><img
+			<a href="bookedTickets.json" id="ticketsAsJsonLink"><img
 				src="img/json-logo.jpg"></a> <a href="bookedTickets.pdf"
-				id="ticketsAsPDF"><img src="img/pdf-logo.jpg"></a>
+				id="ticketsAsPdfLink"><img src="img/pdf-logo.jpg"></a>
 		</div>
 		<div id="bookedTicketsContent">
 			<%@ include file="/WEB-INF/views/bookedTicketsContent.jsp"%>

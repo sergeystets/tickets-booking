@@ -48,8 +48,8 @@ public class TicketController extends BaseController {
 	public ModelAndView showMyTicketsPage(HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		ModelAndView bookedTicketsPage = new ModelAndView("bookedTickets");
-		Set<Ticket> availableTickets = ticketService.getBookedTickets(user.getLogin());
-		bookedTicketsPage.addObject("bookedTickets", availableTickets);
+		Set<Ticket> bookedTickets = ticketService.getBookedTickets(user.getLogin());
+		bookedTicketsPage.addObject("bookedTicketsContent", bookedTickets);
 		return bookedTicketsPage;
 	}
 
@@ -57,7 +57,7 @@ public class TicketController extends BaseController {
 	public ModelAndView showTicketsPage() {
 		ModelAndView ticketsPage = new ModelAndView("availableTickets");
 		Set<Ticket> availableTickets = ticketService.getAvailableTickets();
-		ticketsPage.addObject("availableTickets", availableTickets);
+		ticketsPage.addObject("availableTicketsContent", availableTickets);
 		return ticketsPage;
 	}
 

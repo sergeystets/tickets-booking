@@ -2,40 +2,41 @@ var TicketsFilter = function(resultContainer, baseUrl) {
 
 	var registerEventListeners = function() {
 		$("#filterForm").on("submit", function(event) {
-			getFilteredTickets(event);
+			onSubmit(event);
 		});
-	}();
+	};
 
-	var getFilteredTickets = function(event) {
+	registerEventListeners();
+
+	var onSubmit = function(event) {
 		event.preventDefault();
+
 		var category = $("#category").val();
 		var date = $("#date").val();
 		var title = $("#title").val();
-		var tickets = new Array();
-		tickets.push($("#ticketsAsJSON"));
-		tickets.push($("#ticketsAsPDF"));
+		var links = new Array();
+		var jsonLink = {
+			ext : ".json",
+			container : $("#ticketsAsJsonLink")
+		};
+		var pdfLink = {
+			ext : ".pdf",
+			container : $("#ticketsAsPdfLink")
+		};
+		links.push(jsonLink);
+		links.push(pdfLink);
 
-		var queryCondition = "";
-		$.each(tickets, function(index, value) {
-			var href = value.attr('href');
-			if (href.indexOf("?") > -1) {
-				href = href.substring(0, href.indexOf("?"));
-			}
-			var condition = "?category=" + category;
-			if (date != undefined && date != "") {
-				condition += "&date=" + date;
-			}
-			if (title != undefined && title != "") {
-				condition += "&title=" + title;
-			}
-			href += condition;
-			queryCondition = condition;
-			value.attr('href', href, resultContainer);
-		});
+		var condition = buildCondition(date, title, category);
+		appendConditionToLinks(links, condition);
+		getTicketsFromServer(baseUrl + condition);
 
+		return false;
+	};
+
+	var getTicketsFromServer = function getTicketsFromServer(url) {
 		$.ajax({
 			type : "GET",
-			url : baseUrl + queryCondition,
+			url : url,
 			success : function(data) {
 				resultContainer.html(data);
 			},
@@ -43,7 +44,27 @@ var TicketsFilter = function(resultContainer, baseUrl) {
 				alert("Unexpected error happend. Try again later");
 			}
 		});
+	};
 
-		return false;
+	var appendConditionToLinks = function(tickets, condition) {
+		$.each(tickets, function(index, value) {
+			var urlWithCondition = baseUrl;
+			urlWithCondition += value.ext + condition;
+			value.container.attr('href', urlWithCondition);
+		});
+	};
+
+	var buildCondition = function(date, title, category) {
+		var condition = "?";
+		if (category != undefined && category != "") {
+			condition += "&category=" + category;
+		}
+		if (date != undefined && date != "") {
+			condition += "&date=" + date;
+		}
+		if (title != undefined && title != "") {
+			condition += "&title=" + title;
+		}
+		return (condition.length == 1) ? "" : condition;
 	};
 };
