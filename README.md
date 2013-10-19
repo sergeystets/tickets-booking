@@ -1,19 +1,22 @@
 tickets-booking
 ===============
-					 IN GENERAL 
+
+
+
+	                                         IN GENERAL 
 	  Tickets-booking is a simple web application that gives you a tool to work with cinema tickets. 
 	To access the system you should log in providing your login and password. 
 	In case you do not have your personal account in the system registration steps are required or you can 
 	use default user credential: login: admin, password: admin.
 	
-					STARTING APPLICATION
+	                                        STARTING APPLICATION
 	  As the application by default uses MySql you need to install and launch MySql server. 
 	Also it is required to create a data base with name ‘sergii_stets_tickets_booking’ and run SQL scripts 
 	from db/scripts/mysql folder from the application to initialize data base.
 	Build war file with the help of Maven and deploy it on your Tomcat Server. 
 	After that application will be available by the next link in your browser: localhost:8080/tickets-booking/
 					
-					TECHONOLGY STACK
+	                                        TECHONOLGY STACK
 	  Application is written in Java building with Maven and deploying to Tomcat server.  
 	It also uses Spring Framework for IoC, MVC. There are several implementations for data manipulation. 
 	The default implementation that works with MySQL consists of services that support transactions and 
