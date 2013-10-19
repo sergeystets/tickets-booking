@@ -26,6 +26,9 @@
 	<div class="link">
 		<a href="bookedTickets">My tickets</a>
 	</div>
+	<div  id="logout">
+		<a href="logout">Logout</a>
+	</div>
 
 	<h2 align="center">Welcome to "Epam Cinema"</h2>
 	<h3 align="center">Here you can book tickets</h3>

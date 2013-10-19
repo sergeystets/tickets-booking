@@ -7,7 +7,7 @@ function book(event) {
 		type : "GET",
 		url : "book?ticketId=" + ticketId,
 		success : function(data) {
-			$('#tr' + ticketId).delay(500).fadeOut(400);
+			$('#tr' + ticketId).delay(300).fadeOut(300);
 		},
 		error : function(response, xhr) {
 			alert("Unexpected error happend. Try again later");

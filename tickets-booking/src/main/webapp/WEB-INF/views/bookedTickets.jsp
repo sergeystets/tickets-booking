@@ -26,6 +26,9 @@
 	<div class="link">
 		<a href="availableTickets">All tickets</a>
 	</div>
+	<div  id="logout">
+		<a href="logout">Logout</a>
+	</div>
 
 	<h3 align="center">Your tickets</h3>
 
@@ -43,8 +46,8 @@
 			<input type="submit" name="ok" value="ok" id="ok">
 		</form>
 		<div id="ticketsFormatLogo">
-			<a href="bookedTickets.json" id="ticketsAsJsonLink"><img
-				src="img/json-logo.jpg"></a> <a href="bookedTickets.pdf"
+			<a href="bookedTicketsContent.json" id="ticketsAsJsonLink"><img
+				src="img/json-logo.jpg"></a> <a href="bookedTicketsContent.pdf"
 				id="ticketsAsPdfLink"><img src="img/pdf-logo.jpg"></a>
 		</div>
 		<div id="bookedTicketsContent">
