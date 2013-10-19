@@ -2,6 +2,7 @@ tickets-booking
 ===============
 
                                       IN GENERAL
+                                      -----------
 	  Tickets-booking is a simple web application that gives you a tool to work with cinema tickets. 
 	To access the system you should log in providing your login and password. 
 	In case you do not have your personal account in the system registration steps are required or you can 
