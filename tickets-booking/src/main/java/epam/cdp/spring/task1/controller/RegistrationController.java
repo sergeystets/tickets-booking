@@ -36,15 +36,18 @@ public class RegistrationController extends BaseController {
 		this.userService = userService;
 	}
 
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	@RequestMapping(value = "/registration")
 	public String shorRegistrationPage() {
-		logger.trace("showing registration page started...");
 		return "registration";
+	}
+
+	@RequestMapping("/complete")
+	public String showCompletePage() {
+		return "complete";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@Valid RegistrationUserBean userBean, BindingResult result, HttpServletRequest request) {
-		logger.trace("showing registration page started...");
 		if (result.hasErrors()) {
 			logger.error(result.getAllErrors());
 			request.setAttribute("errors", result.getAllErrors());
@@ -72,34 +75,24 @@ public class RegistrationController extends BaseController {
 		return "redirect:complete";
 	}
 
-	@RequestMapping(value = "/registration/checkLogin.json", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration/checkLogin", method = RequestMethod.POST)
 	public ControllerResponse register(@RequestParam(value = "login", required = false, defaultValue = "") String login) {
 		logger.trace("login to check: " + login);
-		
-		ControllerResponse response = new ControllerResponse();		
+		ControllerResponse response = new ControllerResponse();
+
 		boolean userExists = userService.isUserExists(login);
 		if (userExists) {
 			logger.error("user with login " + login + " exists");
 			response.setError(true);
 			response.setMessage("user with such login already exists");
 		}
+
 		logger.trace("user with login " + login + " does not exist.");
 		return response;
 	}
 
-	@RequestMapping("/complete")
-	public String showCompletePage() {
-		logger.trace("showing complete page");
-		return "complete";
-	}
-
 	@ExceptionHandler(UserServiceException.class)
-	private ControllerResponse getRegistrationErrorResponse(TicketServiceException ex, HttpServletResponse response)
-			throws IOException {
+	public void handleUserServiceException(TicketServiceException ex, HttpServletResponse response) throws IOException {
 		response.sendError(400, ex.getMessage());
-		ControllerResponse errorResponse = new ControllerResponse();
-		errorResponse.setError(true);
-		errorResponse.setMessage(ex.getMessage());
-		return errorResponse;
 	}
 }

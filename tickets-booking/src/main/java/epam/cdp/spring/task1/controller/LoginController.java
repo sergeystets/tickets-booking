@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import epam.cdp.spring.task1.bean.User;
-import epam.cdp.spring.task1.controller.response.ControllerResponse;
 import epam.cdp.spring.task1.exception.TicketServiceException;
 import epam.cdp.spring.task1.exception.UserServiceException;
 import epam.cdp.spring.task1.service.UserService;
@@ -34,13 +33,12 @@ public class LoginController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginPage() {
-		logger.trace("showing login page");
 		return "login";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam(value = "login", required = true) String login,
-			@RequestParam(value = "password", required = true) String password, HttpSession session,
+	public String login(@RequestParam(value = "login", required = false, defaultValue = "") String login,
+			@RequestParam(value = "password", required = false, defaultValue = "") String password, HttpSession session,
 			HttpServletRequest request) {
 		User user = userService.login(login, password);
 		if (user == null) {
@@ -50,17 +48,12 @@ public class LoginController extends BaseController {
 		} else {
 			session.setAttribute("user", user);
 			logger.info("user with login: " + login + " logged in succesfully");
-			return "redirect:tickets";
+			return "redirect:availableTickets";
 		}
 	}
 	
 	@ExceptionHandler(UserServiceException.class)
-	 private ControllerResponse getLoginErrorResponse(TicketServiceException ex, HttpServletResponse response) throws IOException{
+	 public void handleUserServiceException(TicketServiceException ex, HttpServletResponse response) throws IOException{
 		response.sendError(400, ex.getMessage());
-		ControllerResponse errorResponse = new ControllerResponse();
-		errorResponse.setError(true);
-		errorResponse.setMessage(ex.getMessage());
-	
-		return errorResponse;		
 	}	
 }

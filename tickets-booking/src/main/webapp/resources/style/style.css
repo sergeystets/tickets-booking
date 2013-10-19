@@ -85,8 +85,8 @@
 }
 
 .link {
-	width: 70px;
 	background-color: #1FC9F3;
+	display: inline;
 }
 
 

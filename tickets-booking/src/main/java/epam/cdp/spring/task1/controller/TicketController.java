@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import epam.cdp.spring.task1.bean.Ticket;
 import epam.cdp.spring.task1.bean.TicketCategory;
 import epam.cdp.spring.task1.bean.User;
-import epam.cdp.spring.task1.controller.response.ControllerResponse;
 import epam.cdp.spring.task1.exception.TicketServiceException;
 import epam.cdp.spring.task1.service.TicketService;
 
@@ -40,63 +39,53 @@ public class TicketController extends BaseController {
 	public @ResponseBody
 	String book(@RequestParam(value = "ticketId", required = true, defaultValue = "") String ticketId,
 			HttpSession session) throws TicketServiceException {
-		logger.trace("booking");
 		User user = (User) session.getAttribute("user");
 		ticketService.book(ticketId, user.getLogin());
 		return "{}";
 	}
 
-	@RequestMapping("/myTickets")
+	@RequestMapping("/bookedTickets")
 	public ModelAndView showMyTicketsPage(HttpSession session) {
-		logger.trace("showing my tickets page");
 		User user = (User) session.getAttribute("user");
-		ModelAndView bookedTicketsPage = new ModelAndView("myTickets");
+		ModelAndView bookedTicketsPage = new ModelAndView("bookedTickets");
 		Set<Ticket> availableTickets = ticketService.getBookedTickets(user.getLogin());
 		bookedTicketsPage.addObject("bookedTickets", availableTickets);
-		logger.trace("available tickets: " + availableTickets);
 		return bookedTicketsPage;
 	}
 
-	@RequestMapping("/tickets")
+	@RequestMapping("/availableTickets")
 	public ModelAndView showTicketsPage() {
-		logger.trace("showing tickets page");
-		ModelAndView ticketsPage = new ModelAndView("tickets");
+		ModelAndView ticketsPage = new ModelAndView("availableTickets");
 		Set<Ticket> availableTickets = ticketService.getAvailableTickets();
 		ticketsPage.addObject("availableTickets", availableTickets);
-		logger.trace("available tickets: " + availableTickets);
 		return ticketsPage;
 	}
 
-	@RequestMapping(value = "/availableTickets")
+	@RequestMapping(value = "/availableTicketsContent")
 	public String getAvailableTickets(ModelMap model,
 			@RequestParam(value = "category", required = false) TicketCategory category,
 			@RequestParam(value = "title", required = false) String title,
 			@RequestParam(value = "date", required = false) Date date) {
-		logger.trace("preparing available tickets..");
 		Set<Ticket> availableTickets = ticketService.getAvailableTickets(category, title, date);
-		model.addAttribute("availableTickets", availableTickets);
-		logger.trace("available tickets are ready: " + availableTickets);
-		return "availableTickets";
+		logger.trace("available tickes: " +availableTickets);
+		model.addAttribute("availableTicketsContent", availableTickets);
+		return "availableTicketsContent";
 	}
 
-	@RequestMapping(value = "/bookedTickets")
+	@RequestMapping(value = "/bookedTicketsContent")
 	public String getBookedTickets(HttpSession session,
 			@RequestParam(value = "category", required = false) TicketCategory category,
 			@RequestParam(value = "title", required = false) String title,
 			@RequestParam(value = "date", required = false) Date date, ModelMap model) {
 		User user = (User) session.getAttribute("user");
 		Set<Ticket> bookedTickets = ticketService.getBookedTickets(user.getLogin(), category, title, date);
-		logger.trace("bookedTickets for user :" + user.getLogin() + " are ready: " + bookedTickets);
-		model.addAttribute("bookedTickets", bookedTickets);
-		return "bookedTickets";
+		logger.trace("bookedTickets for user: '" + user.getLogin() + "' are ready: " + bookedTickets);
+		model.addAttribute("bookedTicketsContent", bookedTickets);
+		return "bookedTicketsContent";
 	}
 
 	@ExceptionHandler(TicketServiceException.class)
-	ControllerResponse getTicketErrorResponse(TicketServiceException ex, HttpServletResponse response) throws IOException {
+	public void handleTicketServiceException(TicketServiceException ex, HttpServletResponse response) throws IOException {
 		response.sendError(400, ex.getMessage());
-		ControllerResponse errorResponse = new ControllerResponse();
-		errorResponse.setMessage(ex.getMessage());
-		errorResponse.setError(true);
-		return errorResponse;
 	}
 }

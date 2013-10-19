@@ -26,7 +26,7 @@ public class BookedTicketsPdfView extends AbstractPdfView {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		@SuppressWarnings("unchecked")
-		Set<Ticket> bookedTickets = (Set<Ticket>) model.get("bookedTickets");
+		Set<Ticket> bookedTickets = (Set<Ticket>) model.get("bookedTicketsContent");
 
 		PdfPTable table = new PdfPTable(5);
 

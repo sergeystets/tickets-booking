@@ -12,6 +12,9 @@
 
 
 <body>	
+<div class="link">
+		<a href="login">Login</a>
+	</div>
 	<div id="registrationFormWrapper">
 	<h2 align="center">Registration</h2>
 		<form id="registrationForm" method="POST" action="register">

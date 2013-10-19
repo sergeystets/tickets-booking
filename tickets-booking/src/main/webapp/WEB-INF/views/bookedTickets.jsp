@@ -1,31 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<!DOCTYPE html>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<html>
+<link rel="stylesheet" href="style/style.css" />
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script type='text/javascript' src='js/jquery/jquery-1.9.1.js'></script>
+<script type='text/javascript' src='js/jquery/jquery-ui-1.10.3.js'></script>
+<script type='text/javascript' src='js/ticketsFilter.js'></script>
+<script type='text/javascript' src="js/book.js"></script>
 
-<c:choose>
-	<c:when test="${not empty bookedTickets}">
+<script>
+	$(function() {
+		$("#date").datepicker();
+		var resultContainer = $("#bookedTicketsContent");
+		var baseUrl = "bookedTicketsContent";
+		var form = $("#filterForm");
+		var filter = new TicketsFilter(resultContainer, baseUrl, form);
+	});
+</script>
+<body>
+	<div class="link">
+		<a href="availableTickets">All tickets</a>
+	</div>
 
-		<p>List of available tickets:</p>
-		<table id="bookedTicketsTable">
+	<h3 align="center">Your tickets</h3>
 
-			<tr>
-				<th>Title</th>
-				<th>Date</th>
-				<th>Category</th>
-				<th>Place</th>
-			</tr>
 
-			<c:forEach var="ticket" items="${bookedTickets}">
-				<tr id="tr${ticket.id}">
-					<td>${ticket.title}</td>
-					<td>${ticket.date}</td>
-					<td>${ticket.category}</td>
-					<td>${ticket.place}</td>
-					<td><input type="hidden" value="${ticket.id}"></td>
-				</tr>
-			</c:forEach>
-		</table>
-	</c:when>
-	<c:otherwise>
-		<p id="noTicketsMessage">Sorry! No ticket are available.</p>
-	</c:otherwise>
-</c:choose>
+	<div id="filter">
+		<p>Filter</p>
+		<form id="filterForm">
+			<label>category</label> <select name="category" id="category">
+				<option></option>
+				<option>STANDARD</option>
+				<option>PREMIUM</option>
+				<option>BAR</option>
+			</select> <label>title</label><input type="text" name="title" id="title">
+			<label>date</label><input type="text" id="date" name="date">
+			<input type="submit" name="ok" value="ok" id="ok">
+		</form>
+		<div id="ticketsFormatLogo">
+			<a href="bookedTickets.json" id="ticketsAsJSON"><img
+				src="img/json-logo.jpg"></a> <a href="bookedTickets.pdf"
+				id="ticketsAsPDF"><img src="img/pdf-logo.jpg"></a>
+		</div>
+		<div id="bookedTicketsContent">
+			<%@ include file="/WEB-INF/views/bookedTicketsContent.jsp"%>
+		</div>
+
+	</div>
+</body>
+</html>

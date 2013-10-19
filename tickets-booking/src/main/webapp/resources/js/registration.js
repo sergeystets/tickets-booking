@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	var registrationForm = new RegistrationForm($("#registrationForm"));
+	
 });
 
 var RegistrationForm = function(registrationForm) {

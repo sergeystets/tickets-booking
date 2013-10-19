@@ -16,7 +16,9 @@ public class UserDaoImpl implements UserDao {
 
 	private JdbcTemplate template;
 
-	private static final String FIND_USER_BY_LOGIN = "SELECT * FROM user WHERE login = ? and password = ?";
+	private static final String FIND_USER_BY_LOGIN = "SELECT * FROM user WHERE login = ?";
+	
+	private static final String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? and password = ?";
 
 	private static final String INSERT_USER = "INSERT INTO User VALUES (?, ?)";
 
@@ -36,7 +38,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User login(String login, String password) {
-		List<User> users = template.query(FIND_USER_BY_LOGIN, userMapper(), login, password);
+		List<User> users = template.query(FIND_USER_BY_LOGIN_AND_PASSWORD, userMapper(), login, password);
 		if (users.isEmpty()){
 			return null;
 		}
