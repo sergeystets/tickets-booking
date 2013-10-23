@@ -11,6 +11,16 @@
 
 	<context:component-scan base-package="epam.cdp.spring" />
 	<mvc:annotation-driven />
+	
+	<bean
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:storage/storage.properties</value>
+				<value>classpath:spring/configuration.properties</value>
+			</list>
+		</property>
+	</bean>
 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:resources mapping="/style/**" location="/resources/style/" />
@@ -18,7 +28,7 @@
 	<mvc:resources mapping="/img/**" location="/resources/img/" />
 
 
-	<import resource="classpath:spring/data-source-context.xml" />
+	<import resource="classpath:spring/storage-context.xml" />
 	<import resource="classpath:spring/view-resolvers-context.xml" />
 
 </beans>
