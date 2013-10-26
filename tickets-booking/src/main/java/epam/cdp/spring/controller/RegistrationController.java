@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import epam.cdp.spring.bean.RegistrationUserBean;
+import epam.cdp.spring.bean.UserRegistrationBean;
 import epam.cdp.spring.bean.User;
 import epam.cdp.spring.controller.response.ControllerResponse;
 import epam.cdp.spring.exception.TicketServiceException;
@@ -47,7 +47,7 @@ public class RegistrationController extends BaseController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(@Valid RegistrationUserBean userBean, BindingResult result, HttpServletRequest request) {
+	public String register(@Valid UserRegistrationBean userBean, BindingResult result, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			logger.error(result.getAllErrors());
 			request.setAttribute("errors", result.getAllErrors());

@@ -25,12 +25,12 @@ public class TicketDaoMapImpl implements TicketDao {
 	public TicketDaoMapImpl() {
 		tickets = new HashMap<String, Ticket>();
 		bookedTikcets = new HashMap<String, Set<Ticket>>();
-		Ticket t0 = new Ticket("0", "Terminator Salvation", new Date(), TicketCategory.STANDARD, 10);
-		Ticket t4 = new Ticket("4", "King Lion", new Date(), TicketCategory.STANDARD, 10);
-		Ticket t5 = new Ticket("5", "Film", new Date(), TicketCategory.STANDARD, 10);
-		Ticket t6 = new Ticket("6", "Terminator 3", new Date(), TicketCategory.STANDARD, 10);
-		Ticket t1 = new Ticket("1", "Saw 4", new Date(), TicketCategory.BAR, 4);
-		Ticket t2 = new Ticket("2", "Forrest Gump", new Date(), TicketCategory.PREMIUM, 13);
+		Ticket t0 = new Ticket("0", "Terminator Salvation", new Date(), TicketCategory.STANDARD, 10, "admin");
+		Ticket t4 = new Ticket("4", "King Lion", new Date(), TicketCategory.STANDARD, 10, null);
+		Ticket t5 = new Ticket("5", "Film", new Date(), TicketCategory.STANDARD, 10, null);
+		Ticket t6 = new Ticket("6", "Terminator 3", new Date(), TicketCategory.STANDARD, 10, null);
+		Ticket t1 = new Ticket("1", "Saw 4", new Date(), TicketCategory.BAR, 4, null);
+		Ticket t2 = new Ticket("2", "Forrest Gump", new Date(), TicketCategory.PREMIUM, 13,null);
 		tickets.put(t0.getId(), t0);
 		tickets.put(t1.getId(), t1);
 		tickets.put(t2.getId(), t2);

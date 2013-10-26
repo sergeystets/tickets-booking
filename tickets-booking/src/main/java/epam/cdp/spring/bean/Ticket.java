@@ -14,12 +14,18 @@ public class Ticket implements Comparable<Ticket> {
 
 	private int place;
 
-	public Ticket(String id, String title, Date date, TicketCategory category, int place) {
+	private String userLogin;
+
+	public Ticket() {
+	}
+
+	public Ticket(String id, String title, Date date, TicketCategory category, int place, String userLogin) {
 		this.id = id;
 		this.title = title;
 		this.date = date;
 		this.category = category;
 		this.place = place;
+		this.userLogin = userLogin;
 	}
 
 	public String getId() {
@@ -58,10 +64,18 @@ public class Ticket implements Comparable<Ticket> {
 		this.place = place;
 	}
 
+	public String getUserLogin() {
+		return userLogin;
+	}
+
+	public void setUserLogin(String userLogin) {
+		this.userLogin = userLogin;
+	}
+
 	@Override
 	public String toString() {
 		return "Ticket [id=" + id + ", title=" + title + ", date=" + date + ", category=" + category + ", place="
-				+ place + "]";
+				+ place + ", userLogin=" + userLogin + "]";
 	}
 
 	@Override
@@ -93,4 +107,5 @@ public class Ticket implements Comparable<Ticket> {
 	public int compareTo(Ticket t) {
 		return id.compareTo(t.getId());
 	}
+
 }

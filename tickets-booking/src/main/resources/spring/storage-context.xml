@@ -19,9 +19,11 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 
-	<!-- Uncomment this to run scripts for in-memory data base <jdbc:initialize-database 
-		data-source="dataSource" > <jdbc:script location="classpath:/${db.script.location.schema}" 
-		/> <jdbc:script location="classpath:/${db.script.location.data}" /> </jdbc:initialize-database> -->
+	<!-- Uncomment this to run scripts for in-memory data base 
+	<jdbc:initialize-database data-source="dataSource">
+		<jdbc:script location="classpath:/storage/scripts/hsql/schema.sql" />
+		<jdbc:script location="classpath:/storage/scripts/hsql/data.sql" />
+	</jdbc:initialize-database>-->
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg>

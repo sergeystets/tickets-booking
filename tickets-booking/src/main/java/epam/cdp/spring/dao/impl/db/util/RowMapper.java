@@ -30,7 +30,8 @@ public class RowMapper {
 			Date date = rs.getDate("dateTime");
 			TicketCategory category = TicketCategory.values()[rs.getInt("categoryId")];
 			int place = rs.getInt("place");
-			return new Ticket(id, title, date, category, place);
+			String userLogin = rs.getString("userLogin");
+			return new Ticket(id, title, date, category, place, userLogin);
 
 		}
 	};

@@ -24,15 +24,13 @@ public class TicketDaoImpl implements TicketDao {
 
 	private JdbcTemplate template;
 
-	private static final String INSERT_BOOKED_TICKET = "INSERT INTO bookedTickets VALUES(?, ?)";
-
 	private static final String GET_TICKET_BY_ID = "SELECT * FROM ticket WHERE id=?";
 
-	private static final String GET_BOOKED_TICKETS = " SELECT ticket.id, ticket.title, ticket.dateTime, ticket.categoryId, ticket.place "
-			+ "FROM ticket JOIN bookedTickets on ticket.id = bookedTickets.ticketId "
-			+ "JOIN user on user.login = bookedTickets.userLogin WHERE user.login = ? ";
+	private static final String BOOK_TICKET = "UPDATE ticket SET userLogin = ? where id = ?";
 
-	private static final String GET_AVAILABLE_TICKETS = " SELECT * FROM ticket WHERE ticket.id NOT IN (SELECT ticketId from bookedTickets)";
+	private static final String GET_BOOKED_TICKETS = "SELECT * FROM ticket JOIN user on userLogin = login WHERE login = ?";
+
+	private static final String GET_AVAILABLE_TICKETS = "SELECT * FROM ticket WHERE userLogin is NULL";
 
 	private SqlQueryBuilder queryBuilder;
 
@@ -48,8 +46,28 @@ public class TicketDaoImpl implements TicketDao {
 
 	@Override
 	public void book(String ticketId, String login) {
-		ensureTicketIdExists(ticketId);
-		template.update(INSERT_BOOKED_TICKET, login, ticketId);
+		Ticket ticket = getTicket(ticketId);
+		if (ticket == null) {
+			throw new RuntimeException("ticket with id: " + ticketId + " does not exists");
+		}
+
+		ensureTicketIsNotAlreadyBooked(ticket, login);
+		template.update(BOOK_TICKET, login, ticketId);
+	}
+
+	private Ticket getTicket(String ticketId) {
+		List<Ticket> tickets = template.query(GET_TICKET_BY_ID, ticketMapper(), ticketId);
+		if (tickets != null && !tickets.isEmpty()) {
+			return tickets.get(0);
+		}
+		return null;
+	}
+
+	private void ensureTicketIsNotAlreadyBooked(Ticket ticket, String login) {
+		String currentOwner = ticket.getUserLogin();
+		if (currentOwner != null && !currentOwner.equals(login)) {
+			throw new RuntimeException("ticket with id: " + ticket.getId() + " is alreay booked.");
+		}
 	}
 
 	@Override
@@ -76,10 +94,4 @@ public class TicketDaoImpl implements TicketDao {
 		return new TreeSet<Ticket>(tickets);
 	}
 
-	private void ensureTicketIdExists(String ticketId) {
-		List<Ticket> tickets = template.query(GET_TICKET_BY_ID, ticketMapper(), ticketId);
-		if (tickets.isEmpty()) {
-			throw new RuntimeException("ticket with id: " + ticketId + "does not exists");
-		}
-	}
 }

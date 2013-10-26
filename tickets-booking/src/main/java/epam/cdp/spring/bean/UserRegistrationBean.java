@@ -4,7 +4,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-public class RegistrationUserBean {
+public class UserRegistrationBean {
 
 	@NotBlank(message="login can not be blank")
 	@Size(min=3, max=30, message="login should be from 3 to 30 symbols")
