@@ -1,6 +1,6 @@
-package epam.cdp.spring.dao.impl.db;
+package epam.cdp.spring.dao.impl.jdbc;
 
-import static epam.cdp.spring.dao.impl.db.util.RowMapper.ticketMapper;
+import static epam.cdp.spring.dao.impl.util.RowMapper.ticketMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.dao.FilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
-import epam.cdp.spring.dao.impl.db.util.SqlQueryBuilder;
+import epam.cdp.spring.dao.impl.util.SqlQueryBuilder;
 
 @Repository
-public class TicketDaoImpl implements TicketDao {
+public class TicketDaoJdbcImpl implements TicketDao {
 
 	private JdbcTemplate template;
 

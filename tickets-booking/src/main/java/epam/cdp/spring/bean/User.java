@@ -1,15 +1,24 @@
 package epam.cdp.spring.bean;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+@Entity
+@Table(name="User")
 public class User {
 
+	@Id
+	@Column(name="login")
 	@NotBlank(message="login can not be blank")
 	@Size(min=3, max=30, message="login should be from 3 to 30 symbols")
 	private String login;
 
+	@Column(name="password")
 	@NotBlank (message="password can not be blank")
 	@Size(min=3, max=25, message="password should be from 3 to 25 symbols")
 	private String password;

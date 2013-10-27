@@ -1,6 +1,6 @@
-package epam.cdp.spring.dao.impl.db;
+package epam.cdp.spring.dao.impl.jdbc;
 
-import static epam.cdp.spring.dao.impl.db.util.RowMapper.userMapper;
+import static epam.cdp.spring.dao.impl.util.RowMapper.userMapper;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 import epam.cdp.spring.bean.User;
 import epam.cdp.spring.dao.UserDao;
 
-@Repository
-public class UserDaoImpl implements UserDao {
+//@Repository
+public class UserDaoJdbcImpl implements UserDao {
 
 	private JdbcTemplate template;
 

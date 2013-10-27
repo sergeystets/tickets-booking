@@ -1,4 +1,4 @@
-package epam.cdp.spring.dao.impl.db.util;
+package epam.cdp.spring.dao.impl.util;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
