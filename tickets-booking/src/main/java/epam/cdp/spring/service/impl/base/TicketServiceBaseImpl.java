@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.bean.TicketCategory;
+import epam.cdp.spring.bean.User;
 import epam.cdp.spring.dao.FilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
 import epam.cdp.spring.exception.TicketServiceException;
@@ -31,21 +32,24 @@ public class TicketServiceBaseImpl implements TicketService {
 	}
 
 	public void book(String ticketId, String userName) {
-		if (!userService.isUserExists(userName)) {
+		User user = userService.getUserByLogin(userName);
+		if (user != null) {
 			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
-		ticketDao.book(ticketId, userName);
+
+		ticketDao.book(ticketId, user);
 	}
 
 	public Set<Ticket> getBookedTickets(String userName, TicketCategory category, String title, Date date) {
-		if (!userService.isUserExists(userName)) {
+		User user = userService.getUserByLogin(userName);
+		if (user == null) {
 			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
 		FilterCriteria criteria = new FilterCriteria();
 		criteria.setCategory(category);
 		criteria.setTitle(title);
-		criteria.setDate(date);	
-		return ticketDao.getBookedTickets(userName, criteria);
+		criteria.setDate(date);
+		return ticketDao.getBookedTickets(user, criteria);
 	}
 
 	@Override
@@ -53,7 +57,7 @@ public class TicketServiceBaseImpl implements TicketService {
 		FilterCriteria criteria = new FilterCriteria();
 		criteria.setCategory(category);
 		criteria.setTitle(title);
-		criteria.setDate(date);		
+		criteria.setDate(date);
 		return ticketDao.getAvailableTickets(criteria);
 	}
 
@@ -61,16 +65,17 @@ public class TicketServiceBaseImpl implements TicketService {
 	public Set<Ticket> getAvailableTickets() {
 		FilterCriteria criteria = new FilterCriteria();
 		return ticketDao.getAvailableTickets(criteria);
-		
+
 	}
-	
+
 	@Override
 	public Set<Ticket> getBookedTickets(String userName) {
-		if (!userService.isUserExists(userName)) {
+		User user = userService.getUserByLogin(userName);
+		if (user == null) {
 			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
-		
-		return ticketDao.getBookedTickets(userName,new FilterCriteria());
+
+		return ticketDao.getBookedTickets(user, new FilterCriteria());
 	}
 
 }

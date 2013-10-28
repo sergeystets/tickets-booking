@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.bean.TicketCategory;
+import epam.cdp.spring.bean.User;
 import epam.cdp.spring.dao.FilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
 
@@ -25,12 +26,12 @@ public class TicketDaoMapImpl implements TicketDao {
 	public TicketDaoMapImpl() {
 		tickets = new HashMap<String, Ticket>();
 		bookedTikcets = new HashMap<String, Set<Ticket>>();
-		Ticket t0 = new Ticket("0", "Terminator Salvation", new Date(), TicketCategory.STANDARD, 10, "admin");
-		Ticket t4 = new Ticket("4", "King Lion", new Date(), TicketCategory.STANDARD, 10, null);
-		Ticket t5 = new Ticket("5", "Film", new Date(), TicketCategory.STANDARD, 10, null);
-		Ticket t6 = new Ticket("6", "Terminator 3", new Date(), TicketCategory.STANDARD, 10, null);
-		Ticket t1 = new Ticket("1", "Saw 4", new Date(), TicketCategory.BAR, 4, null);
-		Ticket t2 = new Ticket("2", "Forrest Gump", new Date(), TicketCategory.PREMIUM, 13,null);
+		Ticket t0 = new Ticket("0", "Terminator Salvation", new Date(), TicketCategory.STANDARD, 10);
+		Ticket t4 = new Ticket("4", "King Lion",new Date(), TicketCategory.STANDARD, 10);
+		Ticket t5 = new Ticket("5", "Film", new Date(), TicketCategory.STANDARD, 10);
+		Ticket t6 = new Ticket("6", "Terminator 3", new Date(), TicketCategory.STANDARD, 10);
+		Ticket t1 = new Ticket("1", "Saw 4",new Date(), TicketCategory.BAR, 4);
+		Ticket t2 = new Ticket("2", "Forrest Gump", new Date(), TicketCategory.PREMIUM, 13);
 		tickets.put(t0.getId(), t0);
 		tickets.put(t1.getId(), t1);
 		tickets.put(t2.getId(), t2);
@@ -39,25 +40,27 @@ public class TicketDaoMapImpl implements TicketDao {
 		tickets.put(t6.getId(), t6);
 
 		Set<Ticket> adminTickets = new TreeSet<Ticket>();
+		t0.setUser(new User("admin", "admin"));
 		adminTickets.add(t0);
 		bookedTikcets.put("admin", adminTickets);
 	}
 
-	public synchronized void book(String ticketId, String userName) {
+	public synchronized void book(String ticketId, User user) {
 		Ticket ticket = tickets.get(ticketId);
 		if (ticket == null) {
 			throw new RuntimeException("no ticket with ticketId: " + ticketId);
 		}
 
-		Set<Ticket> bookedTickets = bookedTikcets.get(userName);
+		Set<Ticket> bookedTickets = bookedTikcets.get(user.getLogin());
 		if (bookedTickets == null) {
 			bookedTickets = new TreeSet<Ticket>();
 		}
 		bookedTickets.add(ticket);
 	}
 
-	public synchronized Set<Ticket> getBookedTickets(String userName, FilterCriteria criteria) {
-		return bookedTikcets.get(userName);
+	@Override
+	public synchronized Set<Ticket> getBookedTickets(User user, FilterCriteria criteria) {
+		return bookedTikcets.get(user);
 	}
 
 	@Override

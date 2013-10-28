@@ -20,16 +20,16 @@ public class UserServiceTxImpl implements UserService {
 		this.userDao = userDao;
 	}
 
-	public boolean isUserExists(String login) {
-		return userDao.isUserExists(login);
+	public User getUserByLogin(String login) {
+		return userDao.getUserByLogin(login);
 	}
 
 	public User login(String login, String password) {
 		return userDao.login(login, password);
 	}
 
-	public User register(User user){
-		if (isUserExists(user.getLogin())) {
+	public User register(User user){		
+		if (getUserByLogin(user.getLogin()) != null) {
 			throw new UserServiceException("user with login: " + user.getLogin() + "already exists");
 		}
 		return userDao.register(user);

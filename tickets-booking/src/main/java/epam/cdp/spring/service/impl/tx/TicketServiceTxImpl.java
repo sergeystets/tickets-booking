@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.bean.TicketCategory;
+import epam.cdp.spring.bean.User;
 import epam.cdp.spring.dao.FilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
 import epam.cdp.spring.exception.TicketServiceException;
@@ -34,21 +35,24 @@ public class TicketServiceTxImpl implements TicketService {
 	}
 
 	public void book(String ticketId, String login) {
-		if (!userService.isUserExists(login)) {
+		User user = userService.getUserByLogin(login);
+		if (user == null) {
 			throw new TicketServiceException("user with name: " + login + " does not exist.");
 		}
-		ticketDao.book(ticketId, login);
+		
+		ticketDao.book(ticketId, user);
 	}
 
 	public Set<Ticket> getBookedTickets(String login, TicketCategory category, String title, Date date) {
-		if (!userService.isUserExists(login)) {
-			throw new TicketServiceException("user with login: " + login + "does not exist");
+		User user = userService.getUserByLogin(login);
+		if (user == null) {
+			throw new TicketServiceException("user with name: " + login + " does not exist.");
 		}
 		FilterCriteria criteria = new FilterCriteria();
 		criteria.setCategory(category);
 		criteria.setDate(date);
 		criteria.setTitle(title);
-		return ticketDao.getBookedTickets(login, criteria);
+		return ticketDao.getBookedTickets(user, criteria);
 	}
 
 	@Override
@@ -65,11 +69,13 @@ public class TicketServiceTxImpl implements TicketService {
 		return ticketDao.getAvailableTickets(new FilterCriteria());
 	}
 
+	@Override
 	public Set<Ticket> getBookedTickets(String login) {
-		if (!userService.isUserExists(login)) {
-			throw new TicketServiceException("user with login: " + login + "does not exist");
+		User user = userService.getUserByLogin(login);
+		if (user == null) {
+			throw new TicketServiceException("user with name: " + login + " does not exist.");
 		}
 		
-		return ticketDao.getBookedTickets(login, new FilterCriteria());
+		return ticketDao.getBookedTickets(user, new FilterCriteria());
 	}
 }

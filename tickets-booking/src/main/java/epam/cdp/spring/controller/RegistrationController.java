@@ -79,9 +79,8 @@ public class RegistrationController extends BaseController {
 	public ControllerResponse register(@RequestParam(value = "login", required = false, defaultValue = "") String login) {
 		logger.trace("login to check: " + login);
 		ControllerResponse response = new ControllerResponse();
-
-		boolean userExists = userService.isUserExists(login);
-		if (userExists) {
+	
+		if (userService.getUserByLogin(login) != null) {
 			logger.error("user with login " + login + " exists");
 			response.setError(true);
 			response.setMessage("user with such login already exists");

@@ -8,12 +8,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import epam.cdp.spring.bean.TicketCategory;
 import epam.cdp.spring.dao.FilterCriteria;
 
-@Component
 public class SqlQueryBuilder {
 
 	public PreparedStatement appendCriteriaToQuery(String baseQuery, FilterCriteria criteria, Connection conn,

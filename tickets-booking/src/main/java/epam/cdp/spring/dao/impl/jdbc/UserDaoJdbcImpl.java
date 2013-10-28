@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 import epam.cdp.spring.bean.User;
 import epam.cdp.spring.dao.UserDao;
@@ -28,12 +27,12 @@ public class UserDaoJdbcImpl implements UserDao {
 	}
 
 	@Override
-	public boolean isUserExists(String login) {
+	public User getUserByLogin(String login) {
 		List<User> users = template.query(FIND_USER_BY_LOGIN, userMapper(), login);
 		if (users.isEmpty()) {
-			return false;
+			return null;
 		}
-		return true;
+		return users.get(0);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package epam.cdp.spring.dao.impl.util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
 
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
@@ -30,8 +30,8 @@ public class RowMapper {
 			Date date = rs.getDate("dateTime");
 			TicketCategory category = TicketCategory.values()[rs.getInt("categoryId")];
 			int place = rs.getInt("place");
-			String userLogin = rs.getString("userLogin");
-			return new Ticket(id, title, date, category, place, userLogin);
+			User user = userMapper.mapRow(rs, rowNum);
+			return new Ticket(id, title, date, category, place, user);
 
 		}
 	};

@@ -17,8 +17,8 @@ public class UserServiceBaseImpl implements UserService {
 		this.userDao = userDao;
 	}
 
-	public boolean isUserExists(String login) {
-		return userDao.isUserExists(login);
+	public User isUserExists(String login) {
+		return userDao.getUserByLogin(login);
 	}
 
 	public User login(String login, String password) {
@@ -27,9 +27,14 @@ public class UserServiceBaseImpl implements UserService {
 
 	public User register(User user){
 		String login = user.getLogin();
-		if (isUserExists(login)) {
+		if (getUserByLogin(login)!= null) {
 			throw new UserServiceException("user already exists");
 		}
 		return userDao.register(user);
+	}
+
+	@Override
+	public User getUserByLogin(String login) {
+		return userDao.getUserByLogin(login);
 	}
 }

@@ -20,17 +20,16 @@ public class UserDaoHibernateImpl implements UserDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public boolean isUserExists(String login) {
-		User user = (User) sessionFactory.getCurrentSession().get(User.class, login);
-		return user != null;
+	public User getUserByLogin(String login) {
+		return (User) sessionFactory.getCurrentSession().get(User.class, login);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public User login(String login, String password) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
 		criteria.add(conjunction().add(eq("login", login)).add(eq("password", password)));
-
-		@SuppressWarnings("unchecked")
+		
 		List<User> user = criteria.list();
 		if (user == null || user.isEmpty()) {
 			return null;

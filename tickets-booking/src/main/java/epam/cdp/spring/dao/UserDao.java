@@ -4,7 +4,7 @@ import epam.cdp.spring.bean.User;
 
 public interface UserDao {
 
-	boolean isUserExists(String login);
+	User getUserByLogin(String login);
 
 	User login(String login, String password);
 	

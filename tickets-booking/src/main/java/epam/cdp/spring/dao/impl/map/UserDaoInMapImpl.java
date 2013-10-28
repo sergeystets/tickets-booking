@@ -19,8 +19,8 @@ public class UserDaoInMapImpl implements UserDao {
 		users.put(u1.getLogin(), u1);
 	}
 
-	public synchronized boolean isUserExists(String userName) {
-		return users.containsKey(userName);
+	public synchronized User getUserByLogin(String userName) {
+		return users.get(userName);
 	}
 
 	@Override
