@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.bean.User;
-import epam.cdp.spring.dao.FilterCriteria;
+import epam.cdp.spring.dao.TicketFilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
-import epam.cdp.spring.dao.impl.util.HibernateQueryBuilder;
+import epam.cdp.spring.dao.impl.util.TicketHibernateQueryBuilder;
 
 @Repository
 public class TicketDaoHibernateImpl implements TicketDao {
@@ -24,10 +24,10 @@ public class TicketDaoHibernateImpl implements TicketDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private HibernateQueryBuilder queryBuilder;
+	private TicketHibernateQueryBuilder queryBuilder;
 
 	public TicketDaoHibernateImpl() {
-		queryBuilder = new HibernateQueryBuilder();
+		queryBuilder = new TicketHibernateQueryBuilder();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class TicketDaoHibernateImpl implements TicketDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Ticket> getBookedTickets(User user, FilterCriteria filter) {
+	public Set<Ticket> getBookedTickets(User user, TicketFilterCriteria filter) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = queryBuilder.build(filter, session, Ticket.class, eq("user", user));
 		return new TreeSet<Ticket>(criteria.list());
@@ -61,7 +61,7 @@ public class TicketDaoHibernateImpl implements TicketDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Ticket> getAvailableTickets(FilterCriteria filter) {
+	public Set<Ticket> getAvailableTickets(TicketFilterCriteria filter) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = queryBuilder.build(filter, session, Ticket.class, isNull("user"));
 		return new TreeSet<Ticket>(criteria.list());

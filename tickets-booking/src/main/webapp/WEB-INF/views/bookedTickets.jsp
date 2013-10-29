@@ -26,6 +26,9 @@
 	<div class="link">
 		<a href="availableTickets">All tickets</a>
 	</div>
+	<div class="link">
+		<a href="filmInfo">Film info</a>
+	</div>
 	<div  id="logout">
 		<a href="logout">Logout</a>
 	</div>

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.bean.TicketCategory;
 import epam.cdp.spring.bean.User;
-import epam.cdp.spring.dao.FilterCriteria;
+import epam.cdp.spring.dao.TicketFilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
 import epam.cdp.spring.exception.TicketServiceException;
 import epam.cdp.spring.service.TicketService;
@@ -45,7 +45,7 @@ public class TicketServiceBaseImpl implements TicketService {
 		if (user == null) {
 			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
-		FilterCriteria criteria = new FilterCriteria();
+		TicketFilterCriteria criteria = new TicketFilterCriteria();
 		criteria.setCategory(category);
 		criteria.setTitle(title);
 		criteria.setDate(date);
@@ -54,7 +54,7 @@ public class TicketServiceBaseImpl implements TicketService {
 
 	@Override
 	public Set<Ticket> getAvailableTickets(TicketCategory category, String title, Date date) {
-		FilterCriteria criteria = new FilterCriteria();
+		TicketFilterCriteria criteria = new TicketFilterCriteria();
 		criteria.setCategory(category);
 		criteria.setTitle(title);
 		criteria.setDate(date);
@@ -63,7 +63,7 @@ public class TicketServiceBaseImpl implements TicketService {
 
 	@Override
 	public Set<Ticket> getAvailableTickets() {
-		FilterCriteria criteria = new FilterCriteria();
+		TicketFilterCriteria criteria = new TicketFilterCriteria();
 		return ticketDao.getAvailableTickets(criteria);
 
 	}
@@ -75,7 +75,7 @@ public class TicketServiceBaseImpl implements TicketService {
 			throw new TicketServiceException("user with name: " + userName + " does not exist.");
 		}
 
-		return ticketDao.getBookedTickets(user, new FilterCriteria());
+		return ticketDao.getBookedTickets(user, new TicketFilterCriteria());
 	}
 
 }

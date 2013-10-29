@@ -27,7 +27,7 @@
 				<input type="submit" name="submit" value="login">
 			</form>
 			<p id="registrationLink">
-				Don not have account? <a href="registration">Register</a>
+				Do not have an account? <a href="registration">Register</a>
 			</p>
 			<p class="errorMessage">
 				<c:if test="${not empty errorMessage}">

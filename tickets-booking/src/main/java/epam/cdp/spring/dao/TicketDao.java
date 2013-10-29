@@ -9,7 +9,7 @@ public interface TicketDao {
 
 	public void book(String ticketId, User user);
 
-	public Set<Ticket> getBookedTickets(User user, FilterCriteria criteria);
+	public Set<Ticket> getBookedTickets(User user, TicketFilterCriteria criteria);
 
-	public Set<Ticket> getAvailableTickets(FilterCriteria criteria);
+	public Set<Ticket> getAvailableTickets(TicketFilterCriteria criteria);
 }

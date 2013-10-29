@@ -4,7 +4,7 @@ import java.util.Date;
 
 import epam.cdp.spring.bean.TicketCategory;
 
-public class FilterCriteria {
+public class TicketFilterCriteria {
 
 	private TicketCategory category;
 

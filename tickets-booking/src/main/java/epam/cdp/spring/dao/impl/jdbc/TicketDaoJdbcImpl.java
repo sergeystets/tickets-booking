@@ -15,9 +15,9 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.bean.User;
-import epam.cdp.spring.dao.FilterCriteria;
+import epam.cdp.spring.dao.TicketFilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
-import epam.cdp.spring.dao.impl.util.SqlQueryBuilder;
+import epam.cdp.spring.dao.impl.util.TicketSqlQueryBuilder;
 
 //@Repository
 public class TicketDaoJdbcImpl implements TicketDao {
@@ -32,7 +32,7 @@ public class TicketDaoJdbcImpl implements TicketDao {
 
 	private static final String GET_AVAILABLE_TICKETS = "SELECT * FROM ticket WHERE userLogin is NULL";
 
-	private SqlQueryBuilder queryBuilder;
+	private TicketSqlQueryBuilder queryBuilder;
 
 	@Autowired
 	public void setTemplate(JdbcTemplate template) {
@@ -40,7 +40,7 @@ public class TicketDaoJdbcImpl implements TicketDao {
 	}
 
 	@Autowired
-	public void setQueryBuilder(SqlQueryBuilder queryBuilder) {
+	public void setQueryBuilder(TicketSqlQueryBuilder queryBuilder) {
 		this.queryBuilder = queryBuilder;
 	}
 
@@ -71,7 +71,7 @@ public class TicketDaoJdbcImpl implements TicketDao {
 	}
 
 	@Override
-	public Set<Ticket> getBookedTickets(final User user, final FilterCriteria criteria) {
+	public Set<Ticket> getBookedTickets(final User user, final TicketFilterCriteria criteria) {
 		List<Ticket> tickets = template.query(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -83,7 +83,7 @@ public class TicketDaoJdbcImpl implements TicketDao {
 	}
 
 	@Override
-	public Set<Ticket> getAvailableTickets(final FilterCriteria criteria) {
+	public Set<Ticket> getAvailableTickets(final TicketFilterCriteria criteria) {
 		List<Ticket> tickets = template.query(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {

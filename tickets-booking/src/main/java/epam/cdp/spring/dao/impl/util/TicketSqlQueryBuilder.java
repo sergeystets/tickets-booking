@@ -9,11 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 import epam.cdp.spring.bean.TicketCategory;
-import epam.cdp.spring.dao.FilterCriteria;
+import epam.cdp.spring.dao.TicketFilterCriteria;
 
-public class SqlQueryBuilder {
+public class TicketSqlQueryBuilder {
 
-	public PreparedStatement appendCriteriaToQuery(String baseQuery, FilterCriteria criteria, Connection conn,
+	public PreparedStatement appendCriteriaToQuery(String baseQuery, TicketFilterCriteria criteria, Connection conn,
 			boolean containsWhereClause, Object ...params) throws SQLException {
 
 		List<Object> parameters = new ArrayList<Object>(Arrays.asList(params));

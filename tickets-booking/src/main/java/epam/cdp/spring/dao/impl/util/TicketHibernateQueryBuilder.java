@@ -10,12 +10,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 
 import epam.cdp.spring.bean.TicketCategory;
-import epam.cdp.spring.dao.FilterCriteria;
+import epam.cdp.spring.dao.TicketFilterCriteria;
 
 
-public class HibernateQueryBuilder {
+public class TicketHibernateQueryBuilder {
 
-	public Criteria build(FilterCriteria filterCriteria, Session session, Class<?> entityClass, Criterion... criterion){
+	public Criteria build(TicketFilterCriteria filterCriteria, Session session, Class<?> entityClass, Criterion... criterion){
 		Criteria criteria = session.createCriteria(entityClass);
 		
 		TicketCategory category = filterCriteria.getCategory();

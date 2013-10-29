@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import epam.cdp.spring.bean.Ticket;
 import epam.cdp.spring.bean.TicketCategory;
 import epam.cdp.spring.bean.User;
-import epam.cdp.spring.dao.FilterCriteria;
+import epam.cdp.spring.dao.TicketFilterCriteria;
 import epam.cdp.spring.dao.TicketDao;
 
 //@Repository
@@ -59,12 +59,12 @@ public class TicketDaoMapImpl implements TicketDao {
 	}
 
 	@Override
-	public synchronized Set<Ticket> getBookedTickets(User user, FilterCriteria criteria) {
+	public synchronized Set<Ticket> getBookedTickets(User user, TicketFilterCriteria criteria) {
 		return bookedTikcets.get(user);
 	}
 
 	@Override
-	public Set<Ticket> getAvailableTickets(FilterCriteria criteria) {
+	public Set<Ticket> getAvailableTickets(TicketFilterCriteria criteria) {
 		Set<Ticket> bookedTickets = new TreeSet<Ticket>();
 		for (Set<Ticket> tickets : bookedTikcets.values()) {
 			bookedTickets.addAll(tickets);
@@ -82,7 +82,7 @@ public class TicketDaoMapImpl implements TicketDao {
 	 * @param criteria
 	 * @return
 	 */
-	public Set<Ticket> filter(Set<Ticket> ticketsToFilter, FilterCriteria criteria) {
+	public Set<Ticket> filter(Set<Ticket> ticketsToFilter, TicketFilterCriteria criteria) {
 		logger.trace("filter criteria: " + criteria);
 		Date date = criteria.getDate();
 		String title = criteria.getTitle();
