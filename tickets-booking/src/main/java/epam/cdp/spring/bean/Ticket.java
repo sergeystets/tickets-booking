@@ -34,7 +34,7 @@ public class Ticket implements Comparable<Ticket> {
 
 	@NotNull(message = "date can not be null")
 	@Temporal(TemporalType.DATE)
-	@Column(name="dateTime")
+	@Column(name="date")
 	private Date date;
 
 	@NotNull(message = "category can not be null")

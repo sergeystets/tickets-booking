@@ -27,7 +27,7 @@ public class RowMapper {
 		public Ticket mapRow(ResultSet rs, int rowNum) throws SQLException {
 			String id = rs.getString("id");
 			String title = rs.getString("title");
-			Date date = rs.getDate("dateTime");
+			Date date = rs.getDate("date");
 			TicketCategory category = TicketCategory.values()[rs.getInt("categoryId")];
 			int place = rs.getInt("place");
 			User user = userMapper.mapRow(rs, rowNum);

@@ -23,7 +23,7 @@ public class SqlQueryBuilder {
 		String title = criteria.getTitle();
 
 		if (date != null) {
-			String condition = " dateTime <= ?";
+			String condition = " date <= ?";
 			baseQuery = appendCondition(condition, baseQuery, containsWhereClause);
 			parameters.add(date);
 			containsWhereClause = true;
