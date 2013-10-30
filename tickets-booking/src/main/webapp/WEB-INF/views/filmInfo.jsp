@@ -10,8 +10,6 @@
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script type='text/javascript' src='js/jquery/jquery-1.9.1.js'></script>
 <script type='text/javascript' src='js/jquery/jquery-ui-1.10.3.js'></script>
-<script type='text/javascript' src='js/ticketsFilter.js'></script>
-<script type='text/javascript' src="js/book.js"></script>
 
 
 <body>
@@ -32,7 +30,7 @@
 			<label>title</label> <input type="text" id="title" name="title" /> <label>studio</label><input
 				type="text" name="studio" id="studio"> <label>actors</label><input
 				type="text" id="actors" name="actors"
-				placeholder="use ',' to split actors">
+				placeholder="use ',' to split several actors">
 			<input type="submit" name="ok" value="ok" id="ok">
 		</form>
 

@@ -14,23 +14,29 @@ public class FilmInfoMongoQueryBuilder {
 		String studio = filterCriteria.getStudio();
 		List<String> actors = filterCriteria.getActors();
 
-		List<Criteria> criterion = new ArrayList<Criteria>();
+		List<Criteria> criteriaList = new ArrayList<Criteria>();
 		
 		if (title != null && !title.isEmpty()) {
-			criterion.add(new Criteria("title").is(title));
+			criteriaList.add(new Criteria("title").is(title));
 		}
 		if (studio != null && !studio.isEmpty()) {
-			criterion.add(new Criteria("studio").is(studio));
+			criteriaList.add(new Criteria("studio").is(studio));
 		}
 		if (actors != null && !actors.isEmpty()) {
-			criterion.add(new Criteria("actors").is(actors));
+			List<Criteria> actorsCriterion = new ArrayList<>();
+			Criteria actorCriteria = new Criteria();
+			for (String actor: actors){
+				actorsCriterion.add(new Criteria("actors").is(actor));
+			}
+			actorCriteria.andOperator(actorsCriterion.toArray(new Criteria[actorsCriterion.size()]));
+			criteriaList.add(actorCriteria);			
 		}
 		
-		Criteria criteria = new Criteria(); 
-		if (criterion.isEmpty()){
-			return criteria;
+		Criteria finalCreiteria = new Criteria(); 
+		if (criteriaList.isEmpty()){
+			return finalCreiteria;
 		}
 
-		return criteria.orOperator(criterion.toArray(new Criteria[criterion.size()]));
+		return finalCreiteria.orOperator(criteriaList.toArray(new Criteria[criteriaList.size()]));
 	}
 }

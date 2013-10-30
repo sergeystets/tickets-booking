@@ -12,7 +12,7 @@
 
 
 	<!-- Application Loggers -->
-	<logger name="epam.cdp.spring.task1">
+	<logger name="epam.cdp.spring">
 		<level value="trace" />
 	</logger>
 

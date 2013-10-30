@@ -128,3 +128,7 @@ table#filmInfo {
 	color: white;
 	background-color: #1FC9F3;
 }
+
+#actors{
+	width: 180px;
+}
