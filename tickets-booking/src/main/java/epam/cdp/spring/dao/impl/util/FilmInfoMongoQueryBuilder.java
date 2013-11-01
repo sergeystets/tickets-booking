@@ -22,14 +22,9 @@ public class FilmInfoMongoQueryBuilder {
 		if (studio != null && !studio.isEmpty()) {
 			criteriaList.add(new Criteria("studio").is(studio));
 		}
+		
 		if (actors != null && !actors.isEmpty()) {
-			List<Criteria> actorsCriterion = new ArrayList<>();
-			Criteria actorCriteria = new Criteria();
-			for (String actor: actors){
-				actorsCriterion.add(new Criteria("actors").is(actor));
-			}
-			actorCriteria.andOperator(actorsCriterion.toArray(new Criteria[actorsCriterion.size()]));
-			criteriaList.add(actorCriteria);			
+			criteriaList.add(new Criteria("actors").in(actors));
 		}
 		
 		Criteria finalCreiteria = new Criteria(); 
